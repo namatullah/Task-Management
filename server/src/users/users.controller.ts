@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateAuthDto } from 'src/auth/dto/update-auth.dto';
+import { Role } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -12,18 +13,16 @@ export class UsersController {
   }
 
   @Patch(':id/edit')
-  updateUser(
-    @Param('id') id: string,
-    @Body() updateAuthDto: UpdateAuthDto,
-  ) {
+  updateUser(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
     return this.usersService.updateUser(id, updateAuthDto);
   }
 
   @Patch(':id/status')
-  changeStatus(
-    @Param('id') id: string,
-    @Body('isActive') isActive: boolean,
-  ) {
-    return this.usersService.changeStatus(id, isActive);
+  changeStatus(@Param('id') id: string) {
+    return this.usersService.changeStatus(id);
+  }
+  @Patch(':id/role')
+  changeRole(@Param('id') id: string, @Body('role') role: Role) {
+    return this.usersService.changeRole(id, role);
   }
 }

@@ -18,6 +18,10 @@ export const editUser = async (id: any, user: User) => {
   return await api.patch(`/users/${id}/edit`, user);
 };
 
-export const changesUserStatus = async (id: any, isActive: boolean) => {
-  return await api.patch(`/users/${id}/status`, {isActive});
+export const changesUserStatus = async (id: any) => {
+  return await api.patch(`/users/${id}/status`);
+};
+
+export const changesUserRole = async (id: any, role: string) => {
+  return await api.patch(`/users/${id}/role`, {role});
 };

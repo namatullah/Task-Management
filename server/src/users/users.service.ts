@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { Role, User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
@@ -32,10 +32,16 @@ export class UsersService {
     return await this.repo.find();
   }
 
-  async changeStatus(id: string, isActive: boolean) {
+  async changeStatus(id: string) {
     const user = await this.repo.findOneBy({ id });
     if (!user) throw new NotFoundException('User not found');
-    user.isActive = isActive;
+    user.isActive = !user.isActive;
+    return await this.repo.save(user);
+  }
+  async changeRole(id: string, role: Role) {
+    const user = await this.repo.findOneBy({ id });
+    if (!user) throw new NotFoundException('User not found');
+    user.role = role;
     return await this.repo.save(user);
   }
 
