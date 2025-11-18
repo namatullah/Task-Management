@@ -29,7 +29,7 @@ export const UsersTableHeader = [
   "Email",
   "Role",
   "Created At",
-  "Actions",
+  "Active/Deactive",
 ];
 
 export function SliderValuetext(value: number) {

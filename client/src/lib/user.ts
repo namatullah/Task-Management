@@ -1,3 +1,4 @@
+import { User } from "@/components/types/users";
 import api from "./axios";
 
 export const fetchUsers = async (): Promise<void | boolean | any> => {
@@ -10,6 +11,13 @@ export const fetchUsers = async (): Promise<void | boolean | any> => {
   }
 };
 export const deleteUser = async (id: any) => {
-  console.log('before send: ',id)
   return await api.delete(`/users/${id}`);
+};
+
+export const editUser = async (id: any, user: User) => {
+  return await api.patch(`/users/${id}/edit`, user);
+};
+
+export const changesUserStatus = async (id: any, isActive: boolean) => {
+  return await api.patch(`/users/${id}/status`, {isActive});
 };

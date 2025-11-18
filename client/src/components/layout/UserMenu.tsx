@@ -20,6 +20,7 @@ const UserMenu = () => {
     setAnchorElUser(event.currentTarget);
   };
 
+  console.log('USEEER: ',user)
   const handleProfile = () => {
     handleCloseUserMenu();
     router.push("/user/profile");

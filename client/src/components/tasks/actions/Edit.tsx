@@ -17,9 +17,9 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 import React, { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { users } from "@/lib/user";
 import { editTask } from "@/lib/tasks";
 import { TasksType } from "@/components/types/tasks";
+import { fetchUsers } from "@/lib/user";
 
 const Edit = ({
   open,
@@ -41,14 +41,10 @@ const Edit = ({
   const [user, setUser] = useState(task?.user?.id);
 
   useLayoutEffect(() => {
-    const fetchUsers = async () => {
-      const urs = await users();
-      setAllUsers(urs?.data);
-    };
-    fetchUsers();
-    return () => {};
+    fetchUsers()
+      .then((res) => setAllUsers(res.data))
+      .catch((error) => console.log(error));
   }, []);
-
   const [errors, setErrors] = useState<{
     title?: string;
     description?: string;

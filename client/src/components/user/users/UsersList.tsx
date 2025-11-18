@@ -11,7 +11,8 @@ import {
 import React, { useLayoutEffect, useState } from "react";
 import { User } from "../../types/users";
 import { UsersTableHeader, splitWithCommas } from "@/helpers/helper";
-import UserDeleteSub from "./UserDeleteSub";
+import ChangeStatus from "./ChangeStatus";
+import ChangeRole from "./ChangeRole";
 
 const UsersList = ({ user }: { user: User | null }) => {
   const [users, setUsers] = useState([]);
@@ -26,7 +27,7 @@ const UsersList = ({ user }: { user: User | null }) => {
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
-            <TableCell align="left" sx={{ fontWeight: "bold" }} colSpan={5}>
+            <TableCell align="left" sx={{ fontWeight: "bold" }} colSpan={7}>
               Users List
             </TableCell>
           </TableRow>
@@ -62,8 +63,8 @@ const UsersList = ({ user }: { user: User | null }) => {
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
                     {usr.email}
                   </TableCell>
-                  <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
-                    {usr.role}
+                  <TableCell sx={{ padding: 0 }}>
+                    <ChangeRole user={usr} />
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
                     {splitWithCommas(
@@ -77,7 +78,7 @@ const UsersList = ({ user }: { user: User | null }) => {
                     )}
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
-                    <UserDeleteSub userId={user?.id} />
+                    <ChangeStatus user={usr} />
                   </TableCell>
                 </TableRow>
               );

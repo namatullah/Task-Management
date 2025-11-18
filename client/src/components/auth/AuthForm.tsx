@@ -184,24 +184,6 @@ const AuthForm = () => {
               helperText={errors.email}
             />
             {isSignUp && (
-              // <TextField
-              //   select
-              //   name="role"
-              //   label="User Role"
-              //   onChange={handleChange}
-              //   variant="outlined"
-              //   required
-              //   fullWidth
-              //   error={!!errors.role}
-              //   helperText={errors.role}
-              // >
-              //   {UserRole.map((r, index) => (
-              //     <MenuItem key={index} value={r}>
-              //       {r}
-              //     </MenuItem>
-              //   ))}
-              // </TextField>
-
               <FormControl
                 margin="dense"
                 variant="outlined"

@@ -112,9 +112,6 @@ const Add = ({ open, close }: FormType) => {
   const handleCancel = () => {
     close();
   };
-  console.log("S and E date: ", sdate, edate);
-  console.log("Date1: ", postData);
-
   return (
     <Dialog open={open} fullWidth>
       <form onSubmit={handleSubmit}>

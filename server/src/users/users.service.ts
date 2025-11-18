@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
+import { UpdateAuthDto } from 'src/auth/dto/update-auth.dto';
 
 @Injectable()
 export class UsersService {
@@ -31,13 +32,20 @@ export class UsersService {
     return await this.repo.find();
   }
 
-  async remove(id: string) {
-    console.log(id);
-    const user = await this.repo.findOneBy({ id: id });
-    console.log(user);
-
+  async changeStatus(id: string, isActive: boolean) {
+    const user = await this.repo.findOneBy({ id });
     if (!user) throw new NotFoundException('User not found');
+    user.isActive = isActive;
+    return await this.repo.save(user);
+  }
 
-    return await this.repo.remove(user);
+  async updateUser(id: string, updateAuthDto: UpdateAuthDto) {
+    const user = await this.repo.findOneBy({ id });
+    if (!user) throw new NotFoundException('User not found');
+    user.firstName = updateAuthDto.firstName;
+    user.lastName = updateAuthDto.lastName;
+    user.email = updateAuthDto.email;
+    user.role = updateAuthDto.role;
+    return await this.repo.save(user);
   }
 }

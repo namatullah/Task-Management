@@ -1,5 +1,5 @@
 "use client";
-import { Button, Card, CardActions, CardContent } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import { useAuth } from "../layout/contexts/AuthContext";
 import UsersList from "./users/UsersList";
 import UserProfile from "./profile/UserProfile";
@@ -14,9 +14,6 @@ const Profile = () => {
           <UserProfile user={user} />
           <UsersList user={user} />
         </CardContent>
-        <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions>
       </Card>
     </>
   );

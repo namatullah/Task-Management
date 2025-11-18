@@ -1,5 +1,6 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { UpdateAuthDto } from 'src/auth/dto/update-auth.dto';
 
 @Controller('users')
 export class UsersController {
@@ -10,9 +11,19 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    console.log(id)
-    return this.usersService.remove(id);
+  @Patch(':id/edit')
+  updateUser(
+    @Param('id') id: string,
+    @Body() updateAuthDto: UpdateAuthDto,
+  ) {
+    return this.usersService.updateUser(id, updateAuthDto);
+  }
+
+  @Patch(':id/status')
+  changeStatus(
+    @Param('id') id: string,
+    @Body('isActive') isActive: boolean,
+  ) {
+    return this.usersService.changeStatus(id, isActive);
   }
 }
