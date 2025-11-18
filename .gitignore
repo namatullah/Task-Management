@@ -1,0 +1,78 @@
+# Dependencies - Both Client and Server
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tgz
+*.tar.gz
+
+# Environment variables - Both
+.env
+.env.local
+.env.production
+.env.development
+.env.test
+
+# IDE files - Both
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# OS files - Both
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs - Both
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data - Both
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage reports - Both
+coverage/
+.nyc_output/
+
+# Optional npm cache directory - Both
+.npm
+
+# Optional REPL history - Both
+.node_repl_history
+
+# ========== CLIENT SPECIFIC (Next.js) ==========
+# Next.js build output
+client/.next/
+client/out/
+client/.next/cache/
+
+# Next.js production builds
+client/build/
+client/dist/
+
+# Next.js standalone (if used)
+client/standalone/
+
+# ========== SERVER SPECIFIC (NestJS) ==========
+# NestJS build output
+server/dist/
+server/build/
+
+# NestJS temporary files
+server/*.pid
+server/.tmp/
+server/temp/
