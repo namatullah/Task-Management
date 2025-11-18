@@ -13,7 +13,6 @@ const EditSub = ({ task }: { task: TasksType }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log('USR: ', task?.user)
   return (
     <>
       {open && <Edit open={open} close={handleClose} task={task} />}

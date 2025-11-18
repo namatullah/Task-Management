@@ -1,4 +1,3 @@
-import { fetchUsers } from "@/lib/user";
 import {
   Paper,
   Table,
@@ -8,7 +7,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React, { useLayoutEffect, useState } from "react";
 import { User } from "../../types/users";
 import { UsersTableHeader, splitWithCommas } from "@/helpers/helper";
 import ChangeStatus from "./ChangeStatus";

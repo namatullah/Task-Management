@@ -30,8 +30,7 @@ import EditSub from "./child-components/EditSub";
 import DeleteSub from "./child-components/DeleteSub";
 import Link from "next/link";
 import { splitWithCommas } from "@/helpers/helper";
-
-const label = { slotProps: { input: { "aria-label": "Checkbox demo" } } };
+import { useAuth } from "../layout/contexts/AuthContext";
 
 const Tasks = ({
   tasks,
@@ -40,6 +39,7 @@ const Tasks = ({
   tasks: TasksType[] | void | any;
   isArchived: boolean;
 }) => {
+  const { user, isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
 
   const openForm = () => {
@@ -79,7 +79,7 @@ const Tasks = ({
                         </Link>
                       </Typography>
 
-                      {!isArchived && (
+                      {isAuthenticated && !isArchived && (
                         <Button
                           variant="outlined"
                           onClick={openForm}
@@ -152,29 +152,44 @@ const Tasks = ({
                           sx={{ verticalAlign: "top", fontSize: "0.76rem" }}
                         >
                           {task.status}
-                          {!isArchived && <StatusSub task={task} />}
+                          {!isArchived &&
+                            isAuthenticated &&
+                            (user?.role === "admin" ||
+                              user?.id === task.user.id) && (
+                              <StatusSub task={task} />
+                            )}
                         </TableCell>
 
                         <TableCell
                           sx={{ verticalAlign: "top", fontSize: "0.76rem" }}
                         >
                           {task.priority}
-                          {!isArchived && <PrioritySub task={task} />}
+                          {!isArchived &&
+                            isAuthenticated &&
+                            (user?.role === "admin" ||
+                              user?.id === task.user.id) && (
+                              <PrioritySub task={task} />
+                            )}
                         </TableCell>
 
                         <TableCell
                           sx={{ verticalAlign: "top", fontSize: "0.76rem" }}
                         >
                           {task.progress + " %"}
-                          {!isArchived && <ProgressSub task={task} />}
+                          {!isArchived &&
+                            isAuthenticated &&
+                            (user?.role === "admin" ||
+                              user?.id === task.user.id) && (
+                              <ProgressSub task={task} />
+                            )}
                         </TableCell>
-
-                        <TableCell
-                          sx={{ verticalAlign: "top", fontSize: "0.76rem" }}
-                        >
-                          <ArchiveSub task={task} />
-                        </TableCell>
-
+                        {user?.role === "admin" && (
+                          <TableCell
+                            sx={{ verticalAlign: "top", fontSize: "0.76rem" }}
+                          >
+                            {isAuthenticated && <ArchiveSub task={task} />}
+                          </TableCell>
+                        )}
                         <TableCell
                           sx={{ verticalAlign: "top", fontSize: "0.76rem" }}
                         >
@@ -215,12 +230,15 @@ const Tasks = ({
                         <TableCell
                           sx={{ verticalAlign: "top", fontSize: "0.76rem" }}
                         >
-                          {!isArchived && (
-                            <>
-                              <EditSub task={task} />
-                              <DeleteSub taskId={task.id} />
-                            </>
-                          )}
+                          {!isArchived &&
+                            isAuthenticated &&
+                            (user?.id === task.user.id ||
+                              user?.role === "admin") && (
+                              <>
+                                <EditSub task={task} />
+                                <DeleteSub taskId={task.id} />
+                              </>
+                            )}
                         </TableCell>
                       </TableRow>
                     );

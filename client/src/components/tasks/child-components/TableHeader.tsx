@@ -1,11 +1,19 @@
 import * as React from "react";
 import { TableCell, TableRow } from "@mui/material";
 import { TaskTableHeader } from "@/helpers/helper";
+import { useAuth } from "@/components/layout/contexts/AuthContext";
 
 const TableHeader = () => {
+  const { user, isAuthenticated } = useAuth();
   return (
     <TableRow>
-      {TaskTableHeader.map((header, index) => {
+      {TaskTableHeader.filter((h) =>
+        isAuthenticated
+          ? user?.role === "admin"
+            ? h
+            : h !== "Archive?"
+          : h === "Actions"
+      ).map((header, index) => {
         return (
           <TableCell
             key={index}

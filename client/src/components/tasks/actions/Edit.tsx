@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { editTask } from "@/lib/tasks";
 import { TasksType } from "@/components/types/tasks";
 import { fetchUsers } from "@/lib/user";
+import { useAuth } from "@/components/layout/contexts/AuthContext";
 
 const Edit = ({
   open,
@@ -30,6 +31,8 @@ const Edit = ({
   close: () => void;
   task: TasksType;
 }) => {
+  const { user } = useAuth();
+
   const router = useRouter();
 
   const [allUsers, setAllUsers] = useState<any>([]);
@@ -38,8 +41,7 @@ const Edit = ({
   const [description, setDescription] = useState<any>(task.description);
   const [startDate, setStartDate] = useState(dayjs(task.startDate));
   const [endDate, setEndDate] = useState(dayjs(task.endDate));
-  const [user, setUser] = useState(task?.user?.id);
-
+  const [userId, setUserId] = useState(task?.user?.id);
   useLayoutEffect(() => {
     fetchUsers()
       .then((res) => setAllUsers(res.data))
@@ -67,7 +69,7 @@ const Edit = ({
       newErrors.endDate = "Select a valid start date";
     if (startDate && endDate && endDate.isBefore(startDate))
       newErrors.endDate = "End date can not be before start date";
-    if (!user) newErrors.user = "Select a user";
+    if (!userId) newErrors.user = "Select a user";
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
@@ -76,7 +78,7 @@ const Edit = ({
         description,
         startDate: startDate.toDate().toISOString(),
         endDate: endDate.toDate().toISOString(),
-        userId: user,
+        userId: userId,
       };
       try {
         await editTask(task.id, data);
@@ -187,17 +189,21 @@ const Edit = ({
             id="outlined-select-currency"
             label="Task Holder"
             variant="outlined"
-            value={user}
+            value={userId}
             fullWidth
             error={!!errors.user}
             helperText={errors.user}
-            onChange={(e) => setUser(e.target.value)}
+            onChange={(e) => setUserId(e.target.value)}
           >
-            {allUsers.map((user: any) => (
-              <MenuItem key={user.id} value={user.id}>
-                {user.firstName + " " + user.lastName}
-              </MenuItem>
-            ))}
+            {allUsers
+              .filter((u: any) =>
+                user?.role === "user" ? u.id === user?.id : u.id
+              )
+              .map((usr: any) => (
+                <MenuItem key={usr.id} value={usr.id}>
+                  {usr.firstName + " " + usr.lastName}
+                </MenuItem>
+              ))}
           </TextField>
         </DialogContent>
         <DialogActions style={{ padding: "0 25px 20px 20px" }}>
