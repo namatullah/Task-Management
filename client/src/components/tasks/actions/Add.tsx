@@ -29,8 +29,10 @@ import { postTask } from "@/lib/tasks";
 import { FormType } from "../../types/tasks";
 import percentage, { SliderValuetext } from "@/helpers/helper";
 import { fetchUsers } from "@/lib/user";
+import { useAuth } from "@/components/layout/contexts/AuthContext";
 
 const Add = ({ open, close }: FormType) => {
+  const { user } = useAuth();
   const router = useRouter();
 
   const [allUsers, setAllUsers] = useState<any>([]);
@@ -341,11 +343,15 @@ const Add = ({ open, close }: FormType) => {
               setPostData({ ...postData, userId: e.target.value })
             }
           >
-            {allUsers.map((user: any) => (
-              <MenuItem key={user.id} value={user.id}>
-                {user.firstName + " " + user.lastName}
-              </MenuItem>
-            ))}
+            {allUsers
+              .filter((u: any) =>
+                user?.role === "user" ? u.id === user?.id : u.id
+              )
+              .map((user: any) => (
+                <MenuItem key={user.id} value={user.id}>
+                  {user.firstName + " " + user.lastName}
+                </MenuItem>
+              ))}
           </TextField>
         </DialogContent>
         <DialogActions style={{ padding: "0 25px 20px 20px" }}>

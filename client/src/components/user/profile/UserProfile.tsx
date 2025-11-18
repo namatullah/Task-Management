@@ -27,7 +27,7 @@ const UserProfile = ({ user }: { user: User | null }) => {
       <TableContainer
         component={Paper}
         elevation={6}
-        sx={{ margin: "11px", width: "40%" }}
+        sx={{ width: "40%" ,marginY:'10px'}}
       >
         <Table stickyHeader aria-label="sticky table">
           <TableBody>

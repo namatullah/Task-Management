@@ -3,16 +3,38 @@ import { Card, CardContent } from "@mui/material";
 import { useAuth } from "../layout/contexts/AuthContext";
 import UsersList from "./users/UsersList";
 import UserProfile from "./profile/UserProfile";
+import { useLayoutEffect, useState } from "react";
+import { fetchUsers } from "@/lib/user";
 
 const Profile = () => {
   const { user } = useAuth();
-
+  const [users, setUsers] = useState([]);
+  useLayoutEffect(() => {
+    fetchUsers()
+      .then((res) => setUsers(res.data))
+      .catch((error) => console.log(error));
+  }, [user]);
   return (
     <>
       <Card sx={{ margin: "25px" }} elevation={6}>
-        <CardContent sx={{ display: "flex" }}>
+        <CardContent>
           <UserProfile user={user} />
-          <UsersList user={user} />
+          {user?.role === "admin" && (
+            <>
+              <UsersList
+                user={user}
+                users={users}
+                active={true}
+                title="Users list"
+              />
+              <UsersList
+                user={user}
+                users={users}
+                active={false}
+                title="Deactive users list"
+              />
+            </>
+          )}
         </CardContent>
       </Card>
     </>

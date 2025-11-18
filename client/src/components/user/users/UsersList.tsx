@@ -14,21 +14,24 @@ import { UsersTableHeader, splitWithCommas } from "@/helpers/helper";
 import ChangeStatus from "./ChangeStatus";
 import ChangeRole from "./ChangeRole";
 
-const UsersList = ({ user }: { user: User | null }) => {
-  const [users, setUsers] = useState([]);
-  useLayoutEffect(() => {
-    fetchUsers()
-      .then((res) => setUsers(res.data))
-      .catch((error) => console.log(error));
-  }, [user]);
-
+const UsersList = ({
+  user,
+  users,
+  active,
+  title,
+}: {
+  user: User | null;
+  users: User[];
+  active: boolean;
+  title: string;
+}) => {
   return (
-    <TableContainer component={Paper} elevation={6} sx={{ margin: "11px" }}>
+    <TableContainer component={Paper} elevation={6} sx={{ marginY: "10px" }}>
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
             <TableCell align="left" sx={{ fontWeight: "bold" }} colSpan={7}>
-              Users List
+              {title}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -47,7 +50,7 @@ const UsersList = ({ user }: { user: User | null }) => {
         </TableHead>
         <TableBody>
           {users
-            .filter((u: any) => u?.id !== user?.id)
+            .filter((u: any) => u?.id !== user?.id && u.isActive === active)
             .map((usr: any, index) => {
               return (
                 <TableRow hover role="checkbox" key={index} tabIndex={-1}>
@@ -64,7 +67,8 @@ const UsersList = ({ user }: { user: User | null }) => {
                     {usr.email}
                   </TableCell>
                   <TableCell sx={{ padding: 0 }}>
-                    <ChangeRole user={usr} />
+                    {active? (<ChangeRole user={usr} />) : <>{usr.role}</>}
+                    
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
                     {splitWithCommas(

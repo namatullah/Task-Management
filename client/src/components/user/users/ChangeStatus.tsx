@@ -3,14 +3,17 @@ import { Stack, Typography } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import { User } from "@/components/types/users";
 import { changesUserStatus } from "@/lib/user";
+import { useRouter } from "next/navigation";
 
 const ChangeStatus = ({ user }: User | any) => {
+  const router = useRouter()
   const [active, setActive] = useState(user.isActive);
   const handleChange = async () => {
     try {
       const res = await changesUserStatus(user.id);
       if (res.status === 200) {
         setActive(res.data.isActive);
+
       }
     } catch (error: any) {
       const errorMessage = error?.response?.data?.message || "Login failed";
