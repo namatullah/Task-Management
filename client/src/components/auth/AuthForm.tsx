@@ -5,15 +5,10 @@ import {
   Avatar,
   Button,
   Container,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
   IconButton,
   InputAdornment,
   Paper,
-  Radio,
-  RadioGroup,
   TextField,
   Typography,
 } from "@mui/material";
@@ -35,7 +30,6 @@ const AuthForm = () => {
     firstName: "",
     lastName: "",
     email: "",
-    role: "user",
     password: "",
     confirmPassword: "",
   });
@@ -43,7 +37,6 @@ const AuthForm = () => {
     firstName?: string;
     lastName?: string;
     email?: string;
-    role?: string;
     password?: string;
     confirmPassword?: string;
   }>({});
@@ -86,7 +79,6 @@ const AuthForm = () => {
       } else if (formData.password.length < 6) {
         newErrors.password = "Password must be at least 6 characters";
       }
-      if (!formData.role) newErrors.role = "Select a role";
 
       // Confirm Password
       if (!formData.confirmPassword.trim()) {
@@ -99,7 +91,7 @@ const AuthForm = () => {
       if (Object.keys(newErrors).length === 0) {
         setIsLoading(false);
         const { confirmPassword, ...safeData } = formData;
-        const result = await register(safeData);
+        const result = await register({ ...safeData, role: "user" });
         if (!result.success) {
           setSubmitError(result?.error);
         }
@@ -172,52 +164,6 @@ const AuthForm = () => {
               error={!!errors.email}
               helperText={errors.email}
             />
-            {isSignUp && (
-              <FormControl
-                margin="dense"
-                variant="outlined"
-                error={!!errors.role}
-              >
-                <FormLabel id="demo-row-radio-buttons-group-label">
-                  User Role
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="status"
-                  value={formData.role}
-                  onChange={handleChange}
-                  defaultValue="user"
-                >
-                  <FormControlLabel
-                    value="user"
-                    control={<Radio />}
-                    label="User"
-                  />
-                  <FormControlLabel
-                    value="admin"
-                    control={<Radio />}
-                    label="Admin"
-                  />
-                </RadioGroup>
-                {errors.role && (
-                  <p
-                    style={{
-                      color: "#d32f2f",
-                      fontFamily: "Arial",
-                      fontWeight: 400,
-                      fontSize: "0.75rem",
-                      lineHeight: "1.66",
-                      letterSpacing: "0.03333em",
-                      textAlign: "left",
-                      margin: "3px 0 0 14px",
-                    }}
-                  >
-                    {errors.role}
-                  </p>
-                )}
-              </FormControl>
-            )}
 
             <TextField
               name="password"
@@ -261,6 +207,7 @@ const AuthForm = () => {
           <Button
             type="submit"
             fullWidth
+            disabled={isLoading}
             variant="contained"
             color="primary"
             style={{ marginTop: "10px" }}
