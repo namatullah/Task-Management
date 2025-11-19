@@ -53,6 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await signin(credentials);
       const userData = response.data.user;
+      console.log("LOG: ", userData);
       setUser(userData);
       router.push("/");
       return { success: true, data: userData };
@@ -66,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await signup(userData);
       const newUser = response.data.user;
+      console.log("REG: ", newUser);
       setUser(newUser);
       router.push("/");
       return { success: true, data: newUser };

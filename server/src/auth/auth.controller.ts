@@ -27,23 +27,26 @@ export class AuthController {
 
   @Post('signup')
   async signup(
-    @Body() createAuthDto:CreateAuthDto ,
+    @Body() createAuthDto: CreateAuthDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     const existing = await this.usersService.findByEmail(createAuthDto.email);
     if (existing) throw new BadRequestException('Email already registered');
     const plainPassword = createAuthDto.password;
-    const user = await this.usersService.create(createAuthDto);
-    const { token } = await this.authService.signIn(createAuthDto.email, plainPassword);
+    await this.usersService.create(createAuthDto);
+    const { token, user } = await this.authService.signIn(
+      createAuthDto.email,
+      plainPassword,
+    );
 
     res.cookie('jwt', token, {
       httpOnly: true,
       sameSite: 'lax', // use 'lax' for CSRF protection
       secure: process.env.NODE_ENV === 'production', //set to true in production
-      maxAge: 1000 * 60 * 60,  
+      maxAge: 1000 * 60 * 60,
     });
 
-    return { user: { id: user.id, email: user.email } };
+    return { user };
   }
 
   @Post('login')

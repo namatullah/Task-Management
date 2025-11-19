@@ -104,7 +104,6 @@ const ProfileEdit = ({
             autoFocus
             type="Text"
             variant="outlined"
-            required
             fullWidth
             error={!!errors.firstName}
             helperText={errors.firstName}
@@ -117,7 +116,6 @@ const ProfileEdit = ({
             onChange={(e) => setLastName(e.target.value)}
             type="Text"
             variant="outlined"
-            required
             fullWidth
             error={!!errors.lastName}
             helperText={errors.lastName}
@@ -130,7 +128,6 @@ const ProfileEdit = ({
             onChange={(e) => setEmail(e.target.value)}
             type="email"
             variant="outlined"
-            required
             fullWidth
             error={!!errors.email}
             helperText={errors.email}
