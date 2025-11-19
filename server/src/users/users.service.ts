@@ -13,7 +13,6 @@ export class UsersService {
   ) {}
 
   async create(createAuthDto: CreateAuthDto) {
-    console.log('data', createAuthDto);
     const password = await bcrypt.hash(createAuthDto.password, 10);
     createAuthDto.password = password;
     const user = this.repo.create(createAuthDto);
@@ -38,10 +37,19 @@ export class UsersService {
     user.isActive = !user.isActive;
     return await this.repo.save(user);
   }
+
   async changeRole(id: string, role: Role) {
     const user = await this.repo.findOneBy({ id });
     if (!user) throw new NotFoundException('User not found');
     user.role = role;
+    return await this.repo.save(user);
+  }
+
+  async changePassword(id: string, password: string) {
+    const user = await this.repo.findOneBy({ id });
+    if (!user) throw new NotFoundException('User not found');
+    const newPassword = await bcrypt.hash(password, 10);
+    user.password = newPassword;
     return await this.repo.save(user);
   }
 
@@ -51,7 +59,6 @@ export class UsersService {
     user.firstName = updateAuthDto.firstName;
     user.lastName = updateAuthDto.lastName;
     user.email = updateAuthDto.email;
-    user.role = updateAuthDto.role;
     return await this.repo.save(user);
   }
 }

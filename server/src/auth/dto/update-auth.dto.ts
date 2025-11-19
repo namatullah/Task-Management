@@ -1,5 +1,4 @@
 import { IsString } from 'class-validator';
-import { Role } from 'src/users/entities/user.entity';
 
 export class UpdateAuthDto {
   @IsString()
@@ -10,7 +9,4 @@ export class UpdateAuthDto {
 
   @IsString()
   email: string;
-
-  @IsString()
-  role: Role;
 }

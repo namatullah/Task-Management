@@ -1,6 +1,7 @@
 import { useAuth } from "@/components/layout/contexts/AuthContext";
 import { User } from "@/components/types/users";
 import { editUser } from "@/lib/user";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Alert,
   Button,
@@ -12,6 +13,8 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  IconButton,
+  InputAdornment,
   Radio,
   RadioGroup,
   TextField,
@@ -38,13 +41,11 @@ const ProfileEdit = ({
   const [firstName, setFirstName] = useState<any>(user?.firstName);
   const [lastName, setLastName] = useState<any>(user?.lastName);
   const [email, setEmail] = useState<any>(user?.email);
-  const [role, setRole] = useState<any>(user?.role);
 
   const [errors, setErrors] = useState<{
     firstName?: string;
     lastName?: string;
     email?: string;
-    role?: string;
   }>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,13 +62,11 @@ const ProfileEdit = ({
       newErrors.email = "Email is invalid";
     }
 
-    if (!role) newErrors.role = "Select a role";
     setErrors(newErrors);
     const data = {
       firstName,
       lastName,
       email,
-      role,
     };
     if (Object.keys(newErrors).length === 0) {
       try {
@@ -77,11 +76,11 @@ const ProfileEdit = ({
         await logout();
         close();
       } catch (error: any) {
-        if (error.response?.data?.message) {
-          console.log(error.response?.data?.message);
-        } else {
-          console.log("Update Faild");
-        }
+        setSubmitError(
+          error.response?.data?.message
+            ? error.response?.data?.message
+            : "Update Faild"
+        );
       }
     }
   };
@@ -132,42 +131,6 @@ const ProfileEdit = ({
             error={!!errors.email}
             helperText={errors.email}
           />
-          <FormControl margin="dense" variant="outlined" error={!!errors.role}>
-            <FormLabel id="demo-row-radio-buttons-group-label">
-              User Role
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="status"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              defaultValue="user"
-            >
-              <FormControlLabel value="user" control={<Radio />} label="User" />
-              <FormControlLabel
-                value="admin"
-                control={<Radio />}
-                label="Admin"
-              />
-            </RadioGroup>
-            {errors.role && (
-              <p
-                style={{
-                  color: "#d32f2f",
-                  fontFamily: "Arial",
-                  fontWeight: 400,
-                  fontSize: "0.75rem",
-                  lineHeight: "1.66",
-                  letterSpacing: "0.03333em",
-                  textAlign: "left",
-                  margin: "3px 0 0 14px",
-                }}
-              >
-                {errors.role}
-              </p>
-            )}
-          </FormControl>
 
           {submitError && (
             <Grid marginTop={2}>

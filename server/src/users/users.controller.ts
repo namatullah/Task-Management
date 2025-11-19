@@ -21,8 +21,16 @@ export class UsersController {
   changeStatus(@Param('id') id: string) {
     return this.usersService.changeStatus(id);
   }
+
   @Patch(':id/role')
   changeRole(@Param('id') id: string, @Body('role') role: Role) {
     return this.usersService.changeRole(id, role);
   }
+
+  @Patch(':id/changePassword')
+  changePassword(@Param('id') id: string, @Body('password') password: string) {
+    return this.usersService.changePassword(id, password);
+  }
+
+  
 }

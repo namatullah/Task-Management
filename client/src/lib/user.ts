@@ -25,3 +25,7 @@ export const changesUserStatus = async (id: any) => {
 export const changesUserRole = async (id: any, role: string) => {
   return await api.patch(`/users/${id}/role`, {role});
 };
+
+export const changePassword = async (id: any, password: string) => {
+  return await api.patch(`/users/${id}/changePassword`, {password});
+};
