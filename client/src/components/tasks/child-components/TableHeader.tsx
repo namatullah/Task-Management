@@ -12,7 +12,7 @@ const TableHeader = () => {
           ? user?.role === "admin"
             ? h
             : h !== "Archive?"
-          : h === "Actions"
+          : h !== "Actions" && h !== "Archive?"
       ).map((header, index) => {
         return (
           <TableCell
