@@ -49,7 +49,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await signin(credentials);
       const userData = response.data.user;
-      console.log("LOG: ", userData);
       setUser(userData);
       router.push("/");
       return { success: true, data: userData };

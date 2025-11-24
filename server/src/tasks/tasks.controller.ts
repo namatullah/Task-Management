@@ -32,7 +32,6 @@ export class TasksController {
 
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
-    console.log('in controller')
     return this.tasksService.findAll(paginationDto);
   }
   @Get('archived')

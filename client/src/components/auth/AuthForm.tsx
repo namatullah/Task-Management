@@ -8,15 +8,19 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  Link,
   Paper,
   TextField,
   Typography,
+  paperClasses,
 } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/AuthContext";
+import { useStyles } from "./style";
 
 const AuthForm = () => {
+  // const style = useStyles();
   const router = useRouter();
   const { login, register, user } = useAuth();
 
@@ -24,6 +28,7 @@ const AuthForm = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
 
   // Form data
   const [formData, setFormtData] = useState({
@@ -101,6 +106,7 @@ const AuthForm = () => {
       const result = await login(formData);
       if (!result.success) {
         setSubmitError(result?.error);
+        setForgotPassword(true);
       }
     }
   };
@@ -109,7 +115,7 @@ const AuthForm = () => {
     <Container component="main" style={{ maxWidth: "600px" }}>
       <Paper
         elevation={3}
-        style={{
+        sx={{
           marginTop: "20px",
           display: "flex",
           flexDirection: "column",
@@ -215,9 +221,15 @@ const AuthForm = () => {
             {isSignUp ? "Sign Up" : "Sign In"}
           </Button>
           {submitError ? (
+            <>
             <Grid marginTop={2}>
               <Alert severity="error">{submitError}</Alert>
             </Grid>
+
+            {forgotPassword && <Link >Forgot your password?</Link>}
+            
+            </>
+            
           ) : (
             <Grid>
               <Button onClick={switchMode}>

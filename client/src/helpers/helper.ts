@@ -39,3 +39,9 @@ export function SliderValuetext(value: number) {
 export function splitWithCommas(input: string, i: number) {
   return input.split(",").map((s) => s.trim())[i];
 }
+
+export const TaskPagination = {
+  page: 0,
+  rowsPerPage: 5,
+  rowsPerPageOptions: [5, 10, 20],
+};
