@@ -1,10 +1,10 @@
 "use client";
 import { Card, CardContent } from "@mui/material";
-import { useAuth } from "../layout/contexts/AuthContext";
 import UsersList from "./users/UsersList";
 import UserProfile from "./profile/UserProfile";
 import { useLayoutEffect, useState } from "react";
 import { fetchUsers } from "@/lib/user";
+import { useAuth } from "@/hooks/AuthContext";
 
 const Profile = () => {
   const { user } = useAuth();

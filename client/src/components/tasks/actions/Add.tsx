@@ -29,7 +29,7 @@ import { postTask } from "@/lib/tasks";
 import { FormType } from "../../types/tasks";
 import percentage, { SliderValuetext } from "@/helpers/helper";
 import { fetchUsers } from "@/lib/user";
-import { useAuth } from "@/components/layout/contexts/AuthContext";
+import { useAuth } from "@/hooks/AuthContext";
 
 const Add = ({ open, close }: FormType) => {
   const { user } = useAuth();

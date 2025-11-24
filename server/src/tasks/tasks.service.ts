@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -10,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Task, TaskPriority, TaskStatus } from './entities/task.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { PaginatedResponseDto, PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class TasksService {
@@ -27,15 +27,24 @@ export class TasksService {
     return await this.taskRepository.save(newTask);
   }
 
-  async findAll() {
-    return await this.taskRepository.find({
-      where: {
-        isArchived: false,
-      },
-      order: {
-        createdAt: 'DESC',
-      },
+  async findAll(
+    paginationDto: PaginationDto,
+  ): Promise<PaginatedResponseDto<Task>> {
+    const { page = 1, limit = 10 } = paginationDto;
+    const skip = (page - 1) * limit;
+    const [task, total] = await this.taskRepository.findAndCount({
+      skip,
+      take: limit,
+      where: { isArchived: false },
+      order: { createdAt: 'DESC' },
     });
+    return {
+      data: task,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   async archived() {

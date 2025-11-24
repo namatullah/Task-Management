@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskPriority, TaskStatus } from './entities/task.entity';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -29,8 +31,9 @@ export class TasksController {
   }
 
   @Get()
-  findAll() {
-    return this.tasksService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    console.log('in controller')
+    return this.tasksService.findAll(paginationDto);
   }
   @Get('archived')
   archived() {

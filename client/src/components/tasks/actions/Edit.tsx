@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { editTask } from "@/lib/tasks";
 import { TasksType } from "@/components/types/tasks";
 import { fetchUsers } from "@/lib/user";
-import { useAuth } from "@/components/layout/contexts/AuthContext";
+import { useAuth } from "@/hooks/AuthContext";
 
 const Edit = ({
   open,

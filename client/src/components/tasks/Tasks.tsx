@@ -4,21 +4,21 @@ import {
   Button,
   Card,
   CardContent,
-  Divider,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   Tooltip,
   Typography,
 } from "@mui/material";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableHeader from "./child-components/TableHeader";
-import { TasksType } from "../types/tasks";
+import { PaginatedResponse, TasksType } from "../types/tasks";
 import { AddTaskOutlined } from "@mui/icons-material";
 import Add from "./actions/Add";
 import StatusSub from "./child-components/StatusSub";
@@ -30,15 +30,10 @@ import EditSub from "./child-components/EditSub";
 import DeleteSub from "./child-components/DeleteSub";
 import Link from "next/link";
 import { splitWithCommas } from "@/helpers/helper";
-import { useAuth } from "../layout/contexts/AuthContext";
+import { getTasks } from "@/lib/tasks";
+import { useAuth } from "@/hooks/AuthContext";
 
-const Tasks = ({
-  tasks,
-  isArchived,
-}: {
-  tasks: TasksType[] | void | any;
-  isArchived: boolean;
-}) => {
+const Tasks = ({ isArchived }: boolean | any) => {
   const { user, isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
 
@@ -47,6 +42,48 @@ const Tasks = ({
   };
   const closeForm = () => {
     setOpen(false);
+  };
+
+  const [pagination, setPagination] = useState({
+    page: 0, // Material-UI uses 0-based index
+    rowsPerPage: 5,
+  });
+  const [tasks, setTasks] = useState<TasksType[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const loadTasks = async (page: number, rowsPerPage: number) => {
+    setLoading(true);
+    try {
+      const response: PaginatedResponse<TasksType> = await getTasks({
+        page: page + 1, // Convert to 1-based for backend
+        limit: rowsPerPage,
+      });
+      setTasks(response.data);
+      setTotal(response.total);
+    } catch (error) {
+      console.error("Error loading tasks:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadTasks(pagination.page, pagination.rowsPerPage);
+  }, [pagination.page, pagination.rowsPerPage]);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPagination((prev) => ({ ...prev, page: newPage }));
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    setPagination({
+      page: 0, // Reset to first page when changing rows per page
+      rowsPerPage: newRowsPerPage,
+    });
   };
 
   return (
@@ -252,6 +289,16 @@ const Tasks = ({
                 )}
               </TableBody>
             </Table>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 20]}
+              component="div"
+              count={total} // Use total from backend
+              rowsPerPage={pagination.rowsPerPage}
+              page={pagination.page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              disabled={loading}
+            />
           </TableContainer>
         </CardContent>
       </Card>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TableCell, TableRow } from "@mui/material";
 import { TaskTableHeader } from "@/helpers/helper";
-import { useAuth } from "@/components/layout/contexts/AuthContext";
+import { useAuth } from "@/hooks/AuthContext";
 
 const TableHeader = () => {
   const { user, isAuthenticated } = useAuth();

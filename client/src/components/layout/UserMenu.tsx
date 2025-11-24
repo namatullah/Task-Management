@@ -8,9 +8,9 @@ import {
   MenuItem,
   IconButton,
 } from "@mui/material";
-import { useAuth } from "./contexts/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/AuthContext";
 
 const UserMenu = () => {
   const router = useRouter();
@@ -20,7 +20,6 @@ const UserMenu = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  console.log('USEEER: ',user)
   const handleProfile = () => {
     handleCloseUserMenu();
     router.push("/user/profile");

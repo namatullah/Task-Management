@@ -1,5 +1,5 @@
-import { useAuth } from "@/components/layout/contexts/AuthContext";
 import { User } from "@/components/types/users";
+import { useAuth } from "@/hooks/AuthContext";
 import { editUser } from "@/lib/user";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {

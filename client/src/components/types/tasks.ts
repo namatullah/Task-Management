@@ -44,3 +44,16 @@ export interface StatusType extends FormType {
   id?: number | string;
   status?: string;
 }
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface PaginationParams {
+  page: number;
+  limit: number;
+}

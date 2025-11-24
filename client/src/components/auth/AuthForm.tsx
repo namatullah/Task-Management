@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../layout/contexts/AuthContext";
+import { useAuth } from "@/hooks/AuthContext";
 
 const AuthForm = () => {
   const router = useRouter();

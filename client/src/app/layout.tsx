@@ -1,5 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
-import { AuthProvider } from "@/components/layout/contexts/AuthContext";
+import { AuthProvider } from "@/hooks/AuthContext";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 
 export const metadata = {

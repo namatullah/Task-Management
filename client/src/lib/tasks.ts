@@ -1,12 +1,22 @@
-import { TasksType } from "@/components/types/tasks";
+import {
+  PaginatedResponse,
+  PaginationParams,
+  TasksType,
+} from "@/components/types/tasks";
 import api from "./axios";
+import Error from "next/error";
 
-export const getTasks = async (): Promise<void> => {
+export const getTasks = async (params: PaginationParams): Promise<any> => {
   try {
-    const response = await api.get("/tasks");
+    const response = await api.get<PaginatedResponse<TasksType>>("/tasks", {
+      params: {
+        page: params.page,
+        limit: params.limit,
+      },
+    });
     return response.data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
+  } catch (error: any) {
+    throw new Error(error?.response?.data.message || "failed to load tasks");
   }
 };
 
