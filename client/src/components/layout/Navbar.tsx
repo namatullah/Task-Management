@@ -29,7 +29,7 @@ const NavBar = () => {
                 textDecoration: "none",
               }}
             >
-              Task Management
+              Task Management23
             </Typography>
           </div>
           <UserMenu />

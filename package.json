@@ -1,0 +1,39 @@
+{
+  "name": "task-manager-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "docker compose up",
+    "dev:build": "docker compose up --build",
+    "dev:logs": "docker compose logs -f",
+    "dev:down": "docker compose down",
+    "dev:clean": "docker compose down -v",
+    "dev:restart": "docker compose restart",
+    "dev:rebuild": "docker compose down && docker compose up --build -d",
+    
+    "client:logs": "docker compose logs -f client",
+    "server:logs": "docker compose logs -f server",
+    "db:logs": "docker compose logs -f database",
+    
+    "client:shell": "docker compose exec client sh",
+    "server:shell": "docker compose exec server sh",
+    "db:shell": "docker compose exec database psql -U postgres -d task_management",
+    
+    "client:restart": "docker compose restart client",
+    "server:restart": "docker compose restart server",
+    
+    "client:rebuild": "docker compose up -d --build client",
+    "server:rebuild": "docker compose up -d --build server",
+    
+    "status": "docker compose ps",
+    "stats": "docker stats",
+    "clean": "docker system prune -f",
+    
+    "migrate": "docker compose exec server npm run migration:run",
+    "migration:generate": "docker compose exec server npm run migration:generate --",
+    "seed": "docker compose exec server npm run seed"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

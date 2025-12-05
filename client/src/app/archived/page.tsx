@@ -4,7 +4,7 @@ import { getArchived } from "@/lib/tasks";
 const page = async () => {
   const tasks = await getArchived();
 
-  return <Tasks tasks={tasks} isArchived = {true}/>;
+  return <Tasks isArchived = {true}/>;
 };
 
 export default page;
