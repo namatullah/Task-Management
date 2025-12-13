@@ -1,5 +1,7 @@
-import Navbar from "@/components/layout/Navbar";
+import MainDrawer from "@/components/layout/MainDrawer";
+import MainDrawerHeader from "@/components/layout/MainDrawerHeader";
 import { AuthProvider } from "@/hooks/AuthContext";
+import { Box } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 
 export const metadata = {
@@ -14,10 +16,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ margin: 0 }}>
+      <body>
         <AuthProvider>
-          <Navbar />
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          <AppRouterCacheProvider>
+            <Box sx={{ display: "flex" }}>
+              <MainDrawer />
+              <Box component="main" sx={{ flexGrow: 1, p: 0, mt: 1 }}>
+                <MainDrawerHeader />
+                {children}
+              </Box>
+            </Box>
+          </AppRouterCacheProvider>
         </AuthProvider>
       </body>
     </html>
