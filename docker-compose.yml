@@ -11,6 +11,7 @@ services:
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_API_URL=http://localhost:3001
+      - API_INTERNAL_URL=http://server:3001
       - CHOKIDAR_USEPOLLING=true  # For file watching in Docker
       - WATCHPACK_POLLING=true
       - WATCHPACK_POLLING_INTERVAL=1000

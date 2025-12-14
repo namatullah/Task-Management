@@ -20,22 +20,11 @@ export class ProjectsService {
     return await this.projectRespository.save(newProject);
   }
 
-  async findAll(
-    paginationDto: PaginationDto,
-  ): Promise<PaginatedResponseDto<Project>> {
-    const { page = 1, limit = 10 } = paginationDto;
-    const skip = (page - 1) * limit;
-    const [task, total] = await this.projectRespository.findAndCount({
-      skip,
-      take: limit,
+  async findAll() {
+    const res = await this.projectRespository.find({
+      order: { createdAt: 'DESC' },
     });
-    return {
-      data: task,
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
-    };
+    return res;
   }
 
   findOne(id: number) {
@@ -49,7 +38,14 @@ export class ProjectsService {
   remove(id: number) {
     return `This action removes a #${id} project`;
   }
-
+  async getMemberOfProject(id: number) {
+    const project = await this.projectRespository.findOne({
+      where: { id },
+      relations: ['users'],
+    });
+    if (!project) throw new NotFoundException('Project not found');
+    return project.users;
+  }
   async addMemberToProject(id: number, userId: string) {
     const project = await this.projectRespository.findOne({
       where: { id },

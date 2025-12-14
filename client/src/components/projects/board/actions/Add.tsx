@@ -17,10 +17,12 @@ import { addMember, createProject } from "@/lib/project";
 import { fetchUsers } from "@/lib/user";
 
 const Add = ({
+  members,
   open,
   close,
   projectId,
 }: {
+  members: any;
   open: boolean;
   close: () => void;
   projectId: number;
@@ -50,7 +52,7 @@ const Add = ({
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      console.log(user)
+      console.log(user);
       // submit
       try {
         await addMember(projectId, user);

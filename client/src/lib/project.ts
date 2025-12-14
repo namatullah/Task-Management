@@ -19,21 +19,10 @@ export const addMember = async (id: number, userId: string) => {
   return await api.post(`/projects/${id}/member/${userId}`);
 };
 
-export const listProject = async (params: PaginationParams): Promise<any> => {
-  try {
-    const response = await api.get<PaginatedResponse<ProjectType>>(
-      "/projects",
-      {
-        params: {
-          page: params.page,
-          limit: params.limit,
-        },
-      }
-    );
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error?.response?.data.message || error.message || "failed to load tasks"
-    );
-  }
+export const fetchMemebers = async (id: number): Promise<any> => {
+  return await api.get(`/projects/${id}/member`);
+};
+
+export const listProject = async () => {
+  return await api.get("/projects");
 };

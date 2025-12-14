@@ -42,6 +42,6 @@ export function splitWithCommas(input: string, i: number) {
 
 export const TaskPagination = {
   page: 0,
-  rowsPerPage: 5,
+  rowsPerPage: 10,
   rowsPerPageOptions: [5, 10, 20],
 };

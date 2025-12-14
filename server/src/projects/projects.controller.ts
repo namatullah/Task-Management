@@ -24,8 +24,8 @@ export class ProjectsController {
   }
 
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.projectsService.findAll(paginationDto);
+  findAll() {
+    return this.projectsService.findAll();
   }
 
   @Get(':id')
@@ -49,5 +49,10 @@ export class ProjectsController {
     @Param('userId') userId: string,
   ) {
     return this.projectsService.addMemberToProject(+id, userId);
+  }
+
+  @Get(':id/member')
+  getMemberOfProject(@Param('id') id: number | string) {
+    return this.projectsService.getMemberOfProject(+id);
   }
 }

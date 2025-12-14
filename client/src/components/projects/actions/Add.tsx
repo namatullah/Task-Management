@@ -10,11 +10,9 @@ import {
   TextField,
 } from "@mui/material";
 
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FormType } from "../../../helpers/types/tasks";
-import { useAuth } from "@/hooks/AuthContext";
 import { createProject } from "@/lib/project";
+import { useState } from "react";
 
 const Add = ({ open, close }: { open: boolean; close: () => void }) => {
   const router = useRouter();
