@@ -53,7 +53,7 @@ const Add = ({
       console.log(user)
       // submit
       try {
-        await addMember({ user, projectId });
+        await addMember(projectId, user);
         router.push("/projects");
         close();
       } catch (error: any) {

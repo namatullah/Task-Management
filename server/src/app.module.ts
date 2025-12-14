@@ -9,7 +9,6 @@ import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { SeederModule } from './seeder/seeder.module';
 import { ProjectsModule } from './projects/projects.module';
-import { MembersModule } from './members/members.module';
 
 @Module({
   imports: [
@@ -36,7 +35,6 @@ import { MembersModule } from './members/members.module';
     TasksModule,
     SeederModule,
     ProjectsModule,
-    MembersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
