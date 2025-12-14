@@ -13,7 +13,7 @@ const Status = ({ status }: { status: string }) => {
       textColor = "#d32f2f";break;
   }
   return (
-    <h4 style={{ color: textColor }}>{status?.replace("_", " ").toUpperCase()}</h4>
+    <p style={{ color: textColor }}>{status?.replace("_", " ").toUpperCase()}</p>
   );
 };
 

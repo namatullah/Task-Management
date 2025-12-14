@@ -50,21 +50,22 @@ const Board = ({ projectId }: number | any) => {
 
   return (
     <>
-      {open && <Add members = {members} open={open} close={closeForm} projectId={projectId} />}
+      {open && (
+        <Add
+          members={members}
+          open={open}
+          close={closeForm}
+          projectId={projectId}
+        />
+      )}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableBody>
             <TableRow>
               <TableCell colSpan={2}>
-                <Typography
-                  gutterBottom
-                  variant="h6"
-                  component="div"
-                  sx={{ alignContent: "button" }}
-                >
-                  Board Members
-                  <Button startIcon={<AddOutlined />} onClick={openForm} />
-                </Typography>
+                <p>
+                  <b>Board Members</b>
+                </p>
                 {submitError && (
                   <Grid marginTop={2}>
                     <Alert severity="error">{submitError}</Alert>
@@ -84,6 +85,7 @@ const Board = ({ projectId }: number | any) => {
                 </TableCell>
               </TableRow>
             ))}
+            <Button startIcon={<AddOutlined />} onClick={openForm} />
           </TableBody>
         </Table>
       </TableContainer>

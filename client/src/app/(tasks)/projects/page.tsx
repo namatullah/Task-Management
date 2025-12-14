@@ -40,14 +40,10 @@ const page = async () => {
               key={project.id}
             >
               <div style={{ display: "flex" }}>
-                <div style={{ display: "column", width: "80%" }}>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {project.name}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {project.description}
-                  </Typography>
-                  <Status status = {project.status} />
+                <div style={{ display: "column", width: "80%", margin: 4 }}>
+                  <p>{project.name}</p>
+                  <p style={{ fontSize: "0.8rem" }}>{project.description}</p>
+                  <Status status={project.status} />
                   <EditNoteIcon color="secondary" />
                   <DeleteIcon color="error" />
                 </div>
