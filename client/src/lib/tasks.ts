@@ -2,7 +2,7 @@ import {
   PaginatedResponse,
   PaginationParams,
   TasksType,
-} from "@/components/types/tasks";
+} from "@/helpers/types/tasks";
 import api from "./axios";
 import Error from "next/error";
 

@@ -7,7 +7,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { User } from "../../types/users";
+import { User } from "../../../helpers/types/users";
 import { UsersTableHeader, splitWithCommas } from "@/helpers/helper";
 import ChangeStatus from "./ChangeStatus";
 import ChangeRole from "./ChangeRole";

@@ -2,7 +2,7 @@ import { ArchiveOutlined, UnarchiveOutlined } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import React, { useState } from "react";
 import Archive from "../actions/Archive";
-import { TasksType } from "@/components/types/tasks";
+import { TasksType } from "@/helpers/types/tasks";
 
 const ArchiveSub = ({ task }: { task: TasksType }) => {
   const [id, setId] = useState(null);

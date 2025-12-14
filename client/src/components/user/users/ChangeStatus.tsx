@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Stack, Typography } from "@mui/material";
 import Switch from "@mui/material/Switch";
-import { User } from "@/components/types/users";
+import { User } from "@/helpers/types/users";
 import { changesUserStatus } from "@/lib/user";
 import { useRouter } from "next/navigation";
 

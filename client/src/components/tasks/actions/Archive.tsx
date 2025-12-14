@@ -1,4 +1,4 @@
-import { ArchiveType } from "@/components/types/tasks";
+import { ArchiveType } from "@/helpers/types/tasks";
 import { changeArchive } from "@/lib/tasks";
 import { ArchiveOutlined, UnarchiveOutlined } from "@mui/icons-material";
 import {

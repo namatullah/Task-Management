@@ -26,7 +26,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import React, { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { postTask } from "@/lib/tasks";
-import { FormType } from "../../types/tasks";
+import { FormType } from "../../../helpers/types/tasks";
 import percentage, { SliderValuetext } from "@/helpers/helper";
 import { fetchUsers } from "@/lib/user";
 import { useAuth } from "@/hooks/AuthContext";

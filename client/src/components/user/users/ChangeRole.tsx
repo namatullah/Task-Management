@@ -5,7 +5,7 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { User } from "@/components/types/users";
+import { User } from "@/helpers/types/users";
 import { changesUserRole } from "@/lib/user";
 
 const ChangeRole = ({ user }: User | any) => {

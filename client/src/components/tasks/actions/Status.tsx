@@ -1,4 +1,4 @@
-import { StatusType } from "@/components/types/tasks";
+import { StatusType } from "@/helpers/types/tasks";
 import { changeStatus } from "@/lib/tasks";
 import {
   Button,

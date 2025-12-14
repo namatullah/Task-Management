@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useRouter } from "next/navigation";
-import { DeleteType } from "@/components/types/tasks";
+import { DeleteType } from "@/helpers/types/tasks";
 import { deleteTask } from "@/lib/tasks";
 
 const Delete = ({ open, close, id }: DeleteType) => {

@@ -21,7 +21,7 @@ export default function RootLayout({
           <AppRouterCacheProvider>
             <Box sx={{ display: "flex" }}>
               <MainDrawer />
-              <Box component="main" sx={{ flexGrow: 1, p: 0, mt: 1 }}>
+              <Box component="main" sx={{ flexGrow: 1, p: 0, m: 0 }}>
                 <MainDrawerHeader />
                 {children}
               </Box>

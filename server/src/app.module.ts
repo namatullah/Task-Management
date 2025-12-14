@@ -2,13 +2,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PersonDetailsModule } from './person-details/person-details.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { SeederModule } from './seeder/seeder.module';
+import { ProjectsModule } from './projects/projects.module';
+import { MembersModule } from './members/members.module';
 
 @Module({
   imports: [
@@ -30,11 +31,12 @@ import { SeederModule } from './seeder/seeder.module';
         synchronize: true, // set to false in production
       }),
     }),
-    PersonDetailsModule,
     AuthModule,
     UsersModule,
     TasksModule,
     SeederModule,
+    ProjectsModule,
+    MembersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

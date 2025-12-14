@@ -1,4 +1,4 @@
-import { PriorityType } from "@/components/types/tasks";
+import { PriorityType } from "@/helpers/types/tasks";
 import { changePriority } from "@/lib/tasks";
 import {
   Button,

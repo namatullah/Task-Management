@@ -27,7 +27,12 @@ const NavigationLinks = [
   },
   { type: 1, title: "Tasks", icon: <TaskOutlined />, link: "/tasks" },
   { type: 1, title: "My Tasks", icon: <TaskAltOutlined />, link: "/project" },
-  { type: 2, title: "Profile", icon: <AccountBoxOutlined />, link: "/user/profile" },
+  {
+    type: 2,
+    title: "Profile",
+    icon: <AccountBoxOutlined />,
+    link: "/profile",
+  },
   { type: 2, title: "Settings", icon: <SettingsOutlined />, link: "/project" },
   { type: 2, title: "Logout", icon: <LogoutOutlined />, link: "logout" },
 ];
@@ -36,6 +41,7 @@ const SideBarList = ({ open }: { open: boolean }) => {
   const { logout } = useAuth();
   const router = useRouter();
   const handleClick = async (link: any) => {
+    console.log(link);
     link === "logout" ? await logout() : router.push(link);
   };
   return (
@@ -97,6 +103,7 @@ const SideBarList = ({ open }: { open: boolean }) => {
         {NavigationLinks.filter((nav) => nav.type === 2).map((link, index) => (
           <ListItem key={link.title} disablePadding sx={{ display: "block" }}>
             <ListItemButton
+              onClick={() => handleClick(link.link)}
               sx={[
                 {
                   minHeight: 48,

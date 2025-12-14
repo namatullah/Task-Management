@@ -1,6 +1,6 @@
 import { ModeEdit } from "@mui/icons-material";
 import React, { useState } from "react";
-import { TasksType } from "@/components/types/tasks";
+import { TasksType } from "@/helpers/types/tasks";
 import Progress from "../actions/Progress";
 
 const ProgressSub = ({ task }: { task: TasksType }) => {

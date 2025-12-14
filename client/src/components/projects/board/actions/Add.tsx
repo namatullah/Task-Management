@@ -7,51 +7,60 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  MenuItem,
   TextField,
 } from "@mui/material";
 
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FormType } from "../../../helpers/types/tasks";
-import { useAuth } from "@/hooks/AuthContext";
-import { createProject } from "@/lib/project";
+import { addMember, createProject } from "@/lib/project";
+import { fetchUsers } from "@/lib/user";
 
-const Add = ({ open, close }: { open: boolean; close: () => void }) => {
+const Add = ({
+  open,
+  close,
+  projectId,
+}: {
+  open: boolean;
+  close: () => void;
+  projectId: number;
+}) => {
   const router = useRouter();
+  const [allUsers, setAllUsers] = useState<any>([]);
   const [submitError, setSubmitError] = useState<string | null | undefined>(
     null
   );
+  useLayoutEffect(() => {
+    fetchUsers()
+      .then((res) => setAllUsers(res.data))
+      .catch((error) => console.log(error));
+  }, []);
 
-  const [postData, setPostData] = useState({
-    name: "",
-    description: "",
-  });
+  const [user, setUser] = useState("");
 
   const [errors, setErrors] = useState<{
-    name?: string;
-    description?: string;
+    user?: string;
   }>({});
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const newErrors: typeof errors = {};
 
-    if (!postData.name.trim()) newErrors.name = "Name is required";
-    if (!postData.description.trim())
-      newErrors.description = "Description is required";
+    if (!user) newErrors.user = "Select a user";
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
+      console.log(user)
       // submit
       try {
-        await createProject({ ...postData, status: "not_started" });
+        await addMember({ user, projectId });
         router.push("/projects");
         close();
       } catch (error: any) {
         setSubmitError(
           error.response?.data?.message
             ? error.response?.data?.message
-            : "Create faild"
+            : "Add member faild"
         );
       }
     }
@@ -63,33 +72,28 @@ const Add = ({ open, close }: { open: boolean; close: () => void }) => {
   return (
     <Dialog open={open} fullWidth>
       <form onSubmit={handleSubmit}>
-        <DialogTitle>New Project</DialogTitle>
+        <DialogTitle>New Member</DialogTitle>
         <DialogContent>
           <TextField
+            select
+            name="user"
             margin="dense"
-            name="name"
-            label="Name"
+            id="outlined-select-currency"
+            label="User"
             variant="outlined"
+            value={user}
             fullWidth
-            value={postData.name}
-            error={!!errors.name}
-            helperText={errors.name}
-            onChange={(e) => setPostData({ ...postData, name: e.target.value })}
-          />
-          <TextField
-            margin="dense"
-            name="description"
-            label="Description"
-            variant="outlined"
-            fullWidth
-            multiline
-            value={postData.description}
-            error={!!errors.description}
-            helperText={errors.description}
-            onChange={(e) =>
-              setPostData({ ...postData, description: e.target.value })
-            }
-          />
+            error={!!errors.user}
+            helperText={errors.user}
+            onChange={(e) => setUser(e.target.value)}
+          >
+            {allUsers.map((user: any) => (
+              <MenuItem key={user.id} value={user.id}>
+                {user.firstName + " " + user.lastName}
+              </MenuItem>
+            ))}
+          </TextField>
+
           {submitError && (
             <Grid marginTop={2}>
               <Alert severity="error">{submitError}</Alert>
@@ -98,7 +102,7 @@ const Add = ({ open, close }: { open: boolean; close: () => void }) => {
         </DialogContent>
         <DialogActions style={{ padding: "0 25px 20px 20px" }}>
           <Button variant="contained" color="primary" type="submit">
-            add project
+            add member
           </Button>
           <Button variant="contained" color="error" onClick={handleCancel}>
             cancel

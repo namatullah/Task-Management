@@ -1,4 +1,4 @@
-import { User } from "../../types/users";
+import { User } from "../../../helpers/types/users";
 import {
   Paper,
   Table,

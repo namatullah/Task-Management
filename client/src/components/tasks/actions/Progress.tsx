@@ -1,4 +1,4 @@
-import { ProgressType } from "@/components/types/tasks";
+import { ProgressType } from "@/helpers/types/tasks";
 import percentage, { SliderValuetext } from "@/helpers/helper";
 import { changeProgress } from "@/lib/tasks";
 import {

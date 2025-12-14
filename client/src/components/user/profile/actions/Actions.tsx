@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
 import ProfileEdit from "./ProfileEdit";
-import { User } from "@/components/types/users";
+import { User } from "@/helpers/types/users";
 import ChangePassword from "./ChangePassword";
 
 const Actions = ({ user }: { user: User | null }) => {

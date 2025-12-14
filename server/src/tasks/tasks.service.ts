@@ -10,7 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Task, TaskPriority, TaskStatus } from './entities/task.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
-import { PaginatedResponseDto, PaginationDto } from './dto/pagination.dto';
+import { PaginatedResponseDto, PaginationDto } from '../dto/pagination.dto';
 
 @Injectable()
 export class TasksService {

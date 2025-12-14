@@ -2,7 +2,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import React, { useState } from "react";
 import Delete from "../actions/Delete";
 import { Tooltip } from "@mui/material";
-import { TasksType } from "@/components/types/tasks";
+import { TasksType } from "@/helpers/types/tasks";
 import Edit from "../actions/Edit";
 
 const EditSub = ({ task }: { task: TasksType }) => {

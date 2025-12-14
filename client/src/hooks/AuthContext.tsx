@@ -8,7 +8,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { me, signOut, signin, signup } from "@/lib/auth";
-import { LoginFormType, RegisterFormType, User } from "@/components/types/users";
+import { LoginFormType, RegisterFormType, User } from "@/helpers/types/users";
 
 interface AuthContextType {
   user: User | null;

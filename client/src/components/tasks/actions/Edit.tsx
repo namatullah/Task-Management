@@ -18,7 +18,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import React, { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { editTask } from "@/lib/tasks";
-import { TasksType } from "@/components/types/tasks";
+import { TasksType } from "@/helpers/types/tasks";
 import { fetchUsers } from "@/lib/user";
 import { useAuth } from "@/hooks/AuthContext";
 

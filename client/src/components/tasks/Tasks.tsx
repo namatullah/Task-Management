@@ -16,7 +16,7 @@ import {
 
 import { useEffect, useState } from "react";
 import TableHeader from "./child-components/TableHeader";
-import { PaginatedResponse, TasksType } from "../types/tasks";
+import { TasksType } from "../../helpers/types/tasks";
 import StatusSub from "./child-components/StatusSub";
 import PrioritySub from "./child-components/PrioritySub";
 import ProgressSub from "./child-components/ProgressSub";
@@ -28,6 +28,7 @@ import { TaskPagination, splitWithCommas } from "@/helpers/helper";
 import { getTasks } from "@/lib/tasks";
 import { useAuth } from "@/hooks/AuthContext";
 import TableTitle from "./child-components/TableTitle";
+import { PaginatedResponse } from "@/helpers/types/pagination";
 
 const Tasks = ({ isArchived }: boolean | any) => {
   const [rerender, setRerender] = useState(false);

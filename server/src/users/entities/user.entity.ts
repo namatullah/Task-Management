@@ -1,8 +1,10 @@
+import { Project } from 'src/projects/entities/project.entity';
 import { Task } from 'src/tasks/entities/task.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -40,4 +42,7 @@ export class User {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToMany(() => Project, (project) => project.users)
+  projects: Project[];
 }

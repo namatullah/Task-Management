@@ -1,4 +1,4 @@
-import { User } from "@/components/types/users";
+import { User } from "@/helpers/types/users";
 import api from "./axios";
 
 export const fetchUsers = async (): Promise<void | boolean | any> => {
