@@ -7,54 +7,92 @@ import {
   ListItemText,
 } from "@mui/material";
 import {
-  AccountBoxOutlined,
+  AccountCircleOutlined,
   LogoutOutlined,
   SettingsOutlined,
   TaskAltOutlined,
-  TaskOutlined,
   WorkspacesOutlined,
 } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
-import { link } from "fs";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/AuthContext";
 
 const NavigationLinks = [
   {
     type: 1,
+    title: "My Tasks",
+    icon: <TaskAltOutlined />,
+    link: "/tasks",
+    scope: "my_tasks",
+  },
+  {
+    type: 1,
     title: "Project",
     icon: <WorkspacesOutlined />,
     link: "/projects",
+    scope: "projects",
   },
-  { type: 1, title: "Tasks", icon: <TaskOutlined />, link: "/tasks" },
-  { type: 1, title: "My Tasks", icon: <TaskAltOutlined />, link: "/project" },
   {
     type: 2,
     title: "Profile",
-    icon: <AccountBoxOutlined />,
+    icon: <AccountCircleOutlined />,
     link: "/profile",
+    scope: "profile",
   },
-  { type: 2, title: "Settings", icon: <SettingsOutlined />, link: "/project" },
-  { type: 2, title: "Logout", icon: <LogoutOutlined />, link: "logout" },
+  {
+    type: 2,
+    title: "Settings",
+    icon: <SettingsOutlined />,
+    link: "/project",
+    scope: "settings",
+  },
+  {
+    type: 2,
+    title: "Logout",
+    icon: <LogoutOutlined />,
+    link: "logout",
+    scope: "logout",
+  },
 ];
 
 const SideBarList = ({ open }: { open: boolean }) => {
+  const pathname = usePathname();
   const { logout } = useAuth();
   const router = useRouter();
   const handleClick = async (link: any) => {
-    console.log(link);
     link === "logout" ? await logout() : router.push(link);
   };
+
+  const isActive = (nav: any) => {
+    if (!nav.scope) return false;
+    // Project-scoped routes
+    if (nav.scope === "my_tasks") {
+      return pathname.startsWith("/tasks");
+    }
+    if (nav.scope === "projects") {
+      return pathname.startsWith("/projects");
+    }
+    // Exact match routes
+    return pathname === nav.link;
+  };
+
   return (
     <>
       <List>
         {NavigationLinks.filter((nav) => nav.type === 1).map((link, index) => (
           <ListItem key={link.title} disablePadding sx={{ display: "block" }}>
             <ListItemButton
+              selected={isActive(link)}
               onClick={() => handleClick(link.link)}
               sx={[
                 {
                   minHeight: 48,
                   px: 2.5,
+                  "&.Mui-selected": {
+                    backgroundColor: "#b8d3ee",
+                  },
+                  "&.Mui-selected:hover": {
+                    backgroundColor: "#b8d3ee",
+                  },
                 },
                 open
                   ? {
@@ -103,11 +141,18 @@ const SideBarList = ({ open }: { open: boolean }) => {
         {NavigationLinks.filter((nav) => nav.type === 2).map((link, index) => (
           <ListItem key={link.title} disablePadding sx={{ display: "block" }}>
             <ListItemButton
+              selected={isActive(link)}
               onClick={() => handleClick(link.link)}
               sx={[
                 {
                   minHeight: 48,
                   px: 2.5,
+                  "&.Mui-selected": {
+                    backgroundColor: "#b8d3ee",
+                  },
+                  "&.Mui-selected:hover": {
+                    backgroundColor: "#b8d3ee",
+                  },
                 },
                 open
                   ? {

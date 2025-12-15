@@ -91,7 +91,7 @@ const Add = ({
           >
             {allUsers.map((user: any) => (
               <MenuItem key={user.id} value={user.id}>
-                {user.firstName + " " + user.lastName}
+                {user.name}
               </MenuItem>
             ))}
           </TextField>

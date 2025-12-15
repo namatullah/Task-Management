@@ -9,10 +9,12 @@ const TableTitle = ({
   isArchived,
   rerender,
   setRerender,
+  projectId,
 }: {
   isArchived: boolean | any;
   rerender: boolean;
   setRerender: React.Dispatch<React.SetStateAction<boolean>>;
+  projectId: number;
 }) => {
   const { isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
@@ -26,7 +28,7 @@ const TableTitle = ({
   };
   return (
     <>
-      {open && <Add open={open} close={closeForm} />}
+      {open && <Add open={open} close={closeForm} projectId= {projectId} />}
       <TableRow>
         <TableCell align="left" colSpan={13}>
           <div

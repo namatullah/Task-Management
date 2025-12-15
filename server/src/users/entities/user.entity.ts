@@ -12,6 +12,7 @@ import {
 export enum Role {
   USER = 'user',
   ADMIN = 'admin',
+  SUPER_ADMIN = 'super_admin',
 }
 
 @Entity()
@@ -20,10 +21,7 @@ export class User {
   id: string;
 
   @Column({ nullable: true })
-  firstName: string;
-
-  @Column({ nullable: true })
-  lastName: string;
+  name: string;
 
   @Column({ unique: true })
   email: string;

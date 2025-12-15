@@ -29,6 +29,7 @@ export class TasksService {
   }
 
   async findAll(
+    projectId: number,
     paginationDto: PaginationDto,
   ): Promise<PaginatedResponseDto<Task>> {
     const { page = 1, limit = 10 } = paginationDto;
@@ -36,7 +37,7 @@ export class TasksService {
     const [task, total] = await this.taskRepository.findAndCount({
       skip,
       take: limit,
-      where: { isArchived: false },
+      where: { isArchived: false, projectId: projectId },
       order: { createdAt: 'DESC' },
     });
     return {

@@ -27,8 +27,8 @@ export class ProjectsService {
     return res;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
+  async findOne(id: number) {
+    return await this.projectRespository.findOne({where:{id}});
   }
 
   update(id: number, updateProjectDto: UpdateProjectDto) {

@@ -1,17 +1,26 @@
 import {
   PaginatedResponse,
   PaginationParams,
-  TasksType,
-} from "@/helpers/types/tasks";
+} from "@/helpers/types/pagination";
 import api from "./axios";
 import Error from "next/error";
+import { TasksType } from "@/helpers/types/tasks";
 
-export const getTasks = async (params: PaginationParams): Promise<any> => {
+export const getTasks = async ({
+  page,
+  limit,
+  projectId,
+}: {
+  page: number;
+  limit: number;
+  projectId: number;
+}): Promise<any> => {
   try {
     const response = await api.get<PaginatedResponse<TasksType>>("/tasks", {
       params: {
-        page: params.page,
-        limit: params.limit,
+        page: page,
+        limit: limit,
+        projectId: projectId,
       },
     });
     return response.data;

@@ -32,14 +32,8 @@ const UserProfile = ({ user }: { user: User | null }) => {
           </TableRow>
           <TableRow hover>
             <TableCell sx={{ fontSize: "0.76rem" }}>
-              <span style={{ color: "gray" }}>First Name: &nbsp; </span>{" "}
-              {user?.firstName}
-            </TableCell>
-          </TableRow>
-          <TableRow hover>
-            <TableCell sx={{ fontSize: "0.76rem" }}>
-              <span style={{ color: "gray" }}>Last Name: &nbsp; </span>{" "}
-              {user?.lastName}
+              <span style={{ color: "gray" }}>Name: &nbsp; </span>{" "}
+              {user?.name}
             </TableCell>
           </TableRow>
           <TableRow hover>

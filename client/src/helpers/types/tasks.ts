@@ -15,6 +15,12 @@ export interface TasksType {
     lastName?: string;
   };
   isArchived?: boolean;
+  project?: {
+    id?: number;
+    name: string;
+    description: string;
+    status: string;
+  };
 }
 
 export interface FormType {

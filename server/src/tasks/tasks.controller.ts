@@ -20,19 +20,16 @@ export class TasksController {
 
   @Post()
   create(@Body() createTaskDto: CreateTaskDto) {
-    // console.log('receved DTO:', createTaskDto);
-    // console.log(
-    //   'type ot date:',
-    //   typeof createTaskDto.startDate,
-    //   typeof createTaskDto.endDate,
-    // );
-    // console.log(createTaskDto.startDate instanceof Date);
     return this.tasksService.create(createTaskDto);
   }
 
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.tasksService.findAll(paginationDto);
+  findAll(
+    @Query() paginationDto: PaginationDto,
+    @Query('projectId') projectId: number,
+  ) {
+    console.log(projectId, paginationDto);
+    return this.tasksService.findAll(projectId,paginationDto);
   }
   @Get('archived')
   archived() {

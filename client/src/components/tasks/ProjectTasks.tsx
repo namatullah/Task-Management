@@ -30,7 +30,13 @@ import { useAuth } from "@/hooks/AuthContext";
 import TableTitle from "./child-components/TableTitle";
 import { PaginatedResponse } from "@/helpers/types/pagination";
 
-const Tasks = ({ isArchived }: boolean | any) => {
+const ProjectTasks = ({
+  isArchived,
+  projectId,
+}: {
+  isArchived: boolean | any;
+  projectId: number;
+}) => {
   const [rerender, setRerender] = useState(false);
   const { user, isAuthenticated } = useAuth();
   const [apiError, setApiError] = useState<string | null | undefined>(null);
@@ -49,6 +55,7 @@ const Tasks = ({ isArchived }: boolean | any) => {
       const response: PaginatedResponse<TasksType> = await getTasks({
         page: page + 1, // Convert to 1-based for backend
         limit: rowsPerPage,
+        projectId,
       });
       setTasks(response.data);
       setTotal(response.total);
@@ -90,6 +97,7 @@ const Tasks = ({ isArchived }: boolean | any) => {
             isArchived={isArchived}
             rerender={rerender}
             setRerender={setRerender}
+            projectId={projectId}
           />
           <TableHeader />
         </TableHead>
@@ -227,4 +235,4 @@ const Tasks = ({ isArchived }: boolean | any) => {
   );
 };
 
-export default Tasks;
+export default ProjectTasks;

@@ -31,7 +31,15 @@ import percentage, { SliderValuetext } from "@/helpers/helper";
 import { fetchUsers } from "@/lib/user";
 import { useAuth } from "@/hooks/AuthContext";
 
-const Add = ({ open, close }: FormType) => {
+const Add = ({
+  open,
+  close,
+  projectId,
+}: {
+  open: boolean;
+  close: () => void;
+  projectId: number;
+}) => {
   const { user } = useAuth();
   const router = useRouter();
 
@@ -96,6 +104,7 @@ const Add = ({ open, close }: FormType) => {
         progress: postData.progress,
         userId: postData.userId,
         isArchived: false,
+        projectId,
       };
       try {
         await postTask(data);
@@ -349,7 +358,7 @@ const Add = ({ open, close }: FormType) => {
               )
               .map((user: any) => (
                 <MenuItem key={user.id} value={user.id}>
-                  {user.firstName + " " + user.lastName}
+                  {user.name}
                 </MenuItem>
               ))}
           </TextField>

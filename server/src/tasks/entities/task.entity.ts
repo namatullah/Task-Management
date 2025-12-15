@@ -1,3 +1,4 @@
+import { Project } from 'src/projects/entities/project.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
@@ -60,6 +61,16 @@ export class Task {
   user: User;
   @Column({ type: 'uuid', nullable: true })
   userId: string;
+
+  @ManyToOne(() => Project, (project) => project.tasks, {
+    eager: true,
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'projectId' })
+  project: Project;
+  @Column({ type: 'int', nullable: true })
+  projectId: number;
 
   @CreateDateColumn()
   createdAt: Date;

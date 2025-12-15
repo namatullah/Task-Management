@@ -2,10 +2,7 @@ import { IsString } from 'class-validator';
 
 export class UpdateAuthDto {
   @IsString()
-  firstName: string;
-
-  @IsString()
-  lastName: string;
+  name: string;
 
   @IsString()
   email: string;

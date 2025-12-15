@@ -14,17 +14,16 @@ export class SeederService {
   ) {}
 
   async seed() {
-    const defaultEmail = 'admin@systam.com';
+    const defaultEmail = 'super.admin@system.com';
 
     let user = await this.userRepo.findOne({ where: { email: defaultEmail } });
 
     if (!user) {
       user = await this.usersService.create({
-        firstName: 'admin',
-        lastName: 'admin',
+        name: 'Super admin',
         email: defaultEmail,
-        password: 'admin1234',
-        role: Role.ADMIN,
+        password: 'superadmin1234',
+        role: Role.SUPER_ADMIN,
       });
       this.logger.log('DEFAULT ADMIN USER CREATED.');
     } else {

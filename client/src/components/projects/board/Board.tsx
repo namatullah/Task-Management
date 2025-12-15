@@ -18,6 +18,7 @@ import React, { useLayoutEffect, useState } from "react";
 import Add from "./actions/Add";
 import { fetchMemebers } from "@/lib/project";
 import UserTooltip from "@/components/tasks/child-components/UserTooltip";
+import Test from "./actions/Test";
 
 const Board = ({ projectId }: number | any) => {
   const [open, setOpen] = useState(false);
@@ -47,7 +48,6 @@ const Board = ({ projectId }: number | any) => {
 
     loadMemebers();
   }, [open]);
-
   return (
     <>
       {open && (
@@ -77,7 +77,7 @@ const Board = ({ projectId }: number | any) => {
               <TableRow key={member.id}>
                 <TableCell>
                   <Tooltip title={<UserTooltip user={member} />}>
-                    <span>{member.firstName + " " + member.lastName}</span>
+                    <span>{member.name}</span>
                   </Tooltip>
                 </TableCell>
                 <TableCell>
@@ -85,9 +85,10 @@ const Board = ({ projectId }: number | any) => {
                 </TableCell>
               </TableRow>
             ))}
-            <Button startIcon={<AddOutlined />} onClick={openForm} />
+            
           </TableBody>
         </Table>
+        <Button startIcon={<AddOutlined />} onClick={openForm} />
       </TableContainer>
     </>
   );

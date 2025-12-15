@@ -3,10 +3,7 @@ import { Role } from 'src/users/entities/user.entity';
 
 export class CreateAuthDto {
   @IsString()
-  firstName: string;
-
-  @IsString()
-  lastName: string;
+  name: string;
 
   @IsString()
   email: string;

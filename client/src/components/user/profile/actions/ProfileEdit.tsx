@@ -1,7 +1,6 @@
 import { User } from "@/helpers/types/users";
 import { useAuth } from "@/hooks/AuthContext";
 import { editUser } from "@/lib/user";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Alert,
   Button,
@@ -9,14 +8,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
-  IconButton,
-  InputAdornment,
-  Radio,
-  RadioGroup,
   TextField,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -38,13 +30,11 @@ const ProfileEdit = ({
     null
   );
 
-  const [firstName, setFirstName] = useState<any>(user?.firstName);
-  const [lastName, setLastName] = useState<any>(user?.lastName);
+  const [name, setName] = useState<any>(user?.name);
   const [email, setEmail] = useState<any>(user?.email);
 
   const [errors, setErrors] = useState<{
-    firstName?: string;
-    lastName?: string;
+    name?: string;
     email?: string;
   }>({});
 
@@ -52,8 +42,7 @@ const ProfileEdit = ({
     e.preventDefault();
     const newErrors: typeof errors = {};
 
-    if (!firstName.trim()) newErrors.firstName = "First Name is required";
-    if (!lastName.trim()) newErrors.lastName = "Last Name is required";
+    if (!name.trim()) newErrors.name = "Name is required";
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email.trim()) {
@@ -64,14 +53,12 @@ const ProfileEdit = ({
 
     setErrors(newErrors);
     const data = {
-      firstName,
-      lastName,
+      name,
       email,
     };
     if (Object.keys(newErrors).length === 0) {
       try {
         await editUser(user?.id, data);
-
         router.push("/auth");
         await logout();
         close();
@@ -96,28 +83,16 @@ const ProfileEdit = ({
         <DialogContent>
           <TextField
             margin="dense"
-            name="firstName"
-            label="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            name="name"
+            label="Name/Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             autoFocus
             type="Text"
             variant="outlined"
             fullWidth
-            error={!!errors.firstName}
-            helperText={errors.firstName}
-          />
-          <TextField
-            margin="dense"
-            name="lastName"
-            label="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            type="Text"
-            variant="outlined"
-            fullWidth
-            error={!!errors.lastName}
-            helperText={errors.lastName}
+            error={!!errors.name}
+            helperText={errors.name}
           />
           <TextField
             margin="dense"

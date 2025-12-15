@@ -5,13 +5,11 @@ export interface LoginFormType {
 export interface User extends LoginFormType {
   id?: string;
   role?: string;
-  firstName?: string;
-  lastName?: string;
+  name?: string;
   email?: string;
   password?: string;
 }
 export interface RegisterFormType extends LoginFormType {
   role?: string;
-  firstName?: string;
-  lastName?: string;
+  name?: string;
 }

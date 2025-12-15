@@ -32,15 +32,13 @@ const AuthForm = () => {
 
   // Form data
   const [formData, setFormtData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<{
-    firstName?: string;
-    lastName?: string;
+    name?: string;
     email?: string;
     password?: string;
     confirmPassword?: string;
@@ -67,10 +65,8 @@ const AuthForm = () => {
     if (isSignUp) {
       const newErrors: typeof errors = {};
 
-      if (!formData.firstName.trim())
-        newErrors.firstName = "First Name is required";
-      if (!formData.lastName.trim())
-        newErrors.lastName = "Last Name is required";
+      if (!formData.name.trim())
+        newErrors.name = "Name is required";
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!formData.email.trim()) {
@@ -138,25 +134,15 @@ const AuthForm = () => {
             {isSignUp && (
               <>
                 <TextField
-                  name="firstName"
-                  label="First Name"
+                  name="name"
+                  label="Name/Full Name"
                   onChange={handleChange}
                   autoFocus
                   type="Text"
                   variant="outlined"
                   fullWidth
-                  error={Boolean(errors.firstName)}
-                  helperText={errors.firstName}
-                />
-                <TextField
-                  name="lastName"
-                  label="Last Name"
-                  onChange={handleChange}
-                  type="Text"
-                  variant="outlined"
-                  fullWidth
-                  error={!!errors.lastName}
-                  helperText={errors.lastName}
+                  error={Boolean(errors.name)}
+                  helperText={errors.name}
                 />
               </>
             )}

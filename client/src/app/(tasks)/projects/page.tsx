@@ -1,10 +1,19 @@
 import ProjectTitle from "@/components/projects/childs/ProjectTitle";
 import { listProject } from "@/lib/project";
-import { Alert, Card, CardContent, Grid, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from "@mui/material";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Board from "@/components/projects/board/Board";
 import Status from "@/components/projects/childs/Status";
+import Link from "next/link";
+import ProjectContent from "@/components/projects/childs/ProjectContent";
 
 const page = async () => {
   var apiError = "";
@@ -41,11 +50,17 @@ const page = async () => {
             >
               <div style={{ display: "flex" }}>
                 <div style={{ display: "column", width: "80%", margin: 4 }}>
-                  <p>{project.name}</p>
-                  <p style={{ fontSize: "0.8rem" }}>{project.description}</p>
-                  <Status status={project.status} />
+                  <ProjectContent project={project} />
                   <EditNoteIcon color="secondary" />
                   <DeleteIcon color="error" />
+                  <br />
+                  <br />
+                  <Link
+                    href={`/projects/${project.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    Tasks details...
+                  </Link>
                 </div>
                 <Board projectId={project.id} />
               </div>

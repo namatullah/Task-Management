@@ -56,8 +56,7 @@ export class UsersService {
   async updateUser(id: string, updateAuthDto: UpdateAuthDto) {
     const user = await this.repo.findOneBy({ id });
     if (!user) throw new NotFoundException('User not found');
-    user.firstName = updateAuthDto.firstName;
-    user.lastName = updateAuthDto.lastName;
+    user.name = updateAuthDto.name;
     user.email = updateAuthDto.email;
     return await this.repo.save(user);
   }

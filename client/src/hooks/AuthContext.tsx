@@ -62,7 +62,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await signup(userData);
       const newUser = response.data.user;
-      console.log("REG: ", newUser);
       setUser(newUser);
       router.push("/");
       return { success: true, data: newUser };

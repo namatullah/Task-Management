@@ -201,7 +201,7 @@ const Edit = ({
               )
               .map((usr: any) => (
                 <MenuItem key={usr.id} value={usr.id}>
-                  {usr.firstName + " " + usr.lastName}
+                  {usr.name}
                 </MenuItem>
               ))}
           </TextField>

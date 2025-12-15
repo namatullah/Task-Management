@@ -26,3 +26,6 @@ export const fetchMemebers = async (id: number): Promise<any> => {
 export const listProject = async () => {
   return await api.get("/projects");
 };
+export const getProject = async (id: number): Promise<any> => {
+  return await api.get(`/projects/${id}`);
+};

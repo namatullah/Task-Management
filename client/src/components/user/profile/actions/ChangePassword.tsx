@@ -1,6 +1,6 @@
 import { User } from "@/helpers/types/users";
 import { useAuth } from "@/hooks/AuthContext";
-import { changePassword, editUser } from "@/lib/user";
+import { changePassword } from "@/lib/user";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Alert,

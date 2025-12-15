@@ -31,4 +31,7 @@ export class CreateTaskDto {
 
   @IsUUID()
   userId: string;
+
+  @IsNumber()
+  projectId: number;
 }
