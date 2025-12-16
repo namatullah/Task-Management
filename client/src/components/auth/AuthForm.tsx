@@ -17,7 +17,6 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/AuthContext";
-import { useStyles } from "./style";
 
 const AuthForm = () => {
   // const style = useStyles();
@@ -110,7 +109,7 @@ const AuthForm = () => {
   return (
     <Container component="main" style={{ maxWidth: "600px" }}>
       <Paper
-        elevation={3}
+        elevation={6}
         sx={{
           marginTop: "20px",
           display: "flex",

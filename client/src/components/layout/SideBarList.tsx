@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import {
   AccountCircleOutlined,
+  HomeOutlined,
   LogoutOutlined,
   SettingsOutlined,
   TaskAltOutlined,
@@ -17,6 +18,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/AuthContext";
 
 const NavigationLinks = [
+  {
+    type: 1,
+    title: "Home",
+    icon: <HomeOutlined />,
+    link: "/",
+    scope: "home",
+  },
   {
     type: 1,
     title: "My Tasks",
