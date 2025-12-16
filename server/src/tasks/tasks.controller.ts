@@ -26,10 +26,10 @@ export class TasksController {
   @Get()
   findAll(
     @Query() paginationDto: PaginationDto,
+    @Query('userId') userId: string,
     @Query('projectId') projectId: number,
   ) {
-    console.log(projectId, paginationDto);
-    return this.tasksService.findAll(projectId,paginationDto);
+    return this.tasksService.findAll(userId, projectId, paginationDto);
   }
   @Get('archived')
   archived() {

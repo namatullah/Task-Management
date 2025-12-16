@@ -17,15 +17,14 @@ export const TaskTableHeader = [
   "Progress",
   "Archive?",
   "Assigned to",
-  "Created At",
-  "Updated At",
+  "Created",
+  "Updated",
   "Actions",
 ];
 
 export const UsersTableHeader = [
   "ID",
-  "First Name",
-  "Last Name",
+  "Name",
   "Email",
   "Role",
   "Created At",

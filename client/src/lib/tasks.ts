@@ -9,17 +9,21 @@ import { TasksType } from "@/helpers/types/tasks";
 export const getTasks = async ({
   page,
   limit,
+  userId,
   projectId,
 }: {
   page: number;
   limit: number;
-  projectId: number;
+  userId: string | null | undefined;
+  projectId: number | null;
 }): Promise<any> => {
+  console.log("api: ", page, limit, userId, projectId);
   try {
     const response = await api.get<PaginatedResponse<TasksType>>("/tasks", {
       params: {
         page: page,
         limit: limit,
+        userId,
         projectId: projectId,
       },
     });

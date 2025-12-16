@@ -3,7 +3,9 @@ import api from "./axios";
 
 export const fetchUsers = async (): Promise<void | boolean | any> => {
   try {
-    const response = await api.get("/users");
+    const response = await api.get("/users", {
+      params: {},
+    });
     return { success: true, data: response.data };
   } catch (error: any) {
     const errorMessage = error?.response?.data?.message || "Login failed";
@@ -23,9 +25,9 @@ export const changesUserStatus = async (id: any) => {
 };
 
 export const changesUserRole = async (id: any, role: string) => {
-  return await api.patch(`/users/${id}/role`, {role});
+  return await api.patch(`/users/${id}/role`, { role });
 };
 
 export const changePassword = async (id: any, password: string) => {
-  return await api.patch(`/users/${id}/changePassword`, {password});
+  return await api.patch(`/users/${id}/changePassword`, { password });
 };

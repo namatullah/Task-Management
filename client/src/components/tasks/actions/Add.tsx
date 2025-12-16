@@ -26,10 +26,10 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import React, { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { postTask } from "@/lib/tasks";
-import { FormType } from "../../../helpers/types/tasks";
 import percentage, { SliderValuetext } from "@/helpers/helper";
 import { fetchUsers } from "@/lib/user";
 import { useAuth } from "@/hooks/AuthContext";
+import { fetchMemebers } from "@/lib/project";
 
 const Add = ({
   open,
@@ -48,7 +48,7 @@ const Add = ({
   const [sdate, setSDate] = useState<Dayjs | null>(null);
   const [edate, setEDate] = useState<Dayjs | null>(null);
   useLayoutEffect(() => {
-    fetchUsers()
+    fetchMemebers(projectId)
       .then((res) => setAllUsers(res.data))
       .catch((error) => console.log(error));
   }, []);
@@ -108,7 +108,7 @@ const Add = ({
       };
       try {
         await postTask(data);
-        router.push("/");
+        router.push(`/projects/${projectId}`);
         close();
       } catch (error: any) {
         if (error.response?.data?.message) {

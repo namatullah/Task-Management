@@ -15,7 +15,7 @@ import SideBarList from "./SideBarList";
 import { useAuth } from "@/hooks/AuthContext";
 import Link from "next/link";
 
-const drawerWidth = 240;
+const drawerWidth = 180;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -102,7 +102,7 @@ const Drawer = styled(MuiDrawer, {
 export default function MainDrawer() {
   const { user, logout, loading } = useAuth();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);

@@ -11,7 +11,6 @@ import {
   TableContainer,
   TableRow,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useLayoutEffect, useState } from "react";
