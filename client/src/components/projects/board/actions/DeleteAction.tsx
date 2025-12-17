@@ -1,20 +1,19 @@
 import { DeleteForever } from "@mui/icons-material";
-import { forwardRef, useImperativeHandle, useState } from "react";
 import Delete from "./Delete";
 import { ProjectMemberType } from "@/helpers/types/projects";
+import { useState } from "react";
 
-const DeleteAction = forwardRef(({ member }: ProjectMemberType | any, ref) => {
+const DeleteAction = ({ member, setDeleteRender }: ProjectMemberType | any) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
+    setDeleteRender(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setDeleteRender(false);
   };
-  useImperativeHandle(ref, () => ({
-    isActionDelete: open,
-  }));
 
   return (
     <>
@@ -22,6 +21,6 @@ const DeleteAction = forwardRef(({ member }: ProjectMemberType | any, ref) => {
       <DeleteForever onClick={handleOpen} color="error" />
     </>
   );
-});
+};
 
 export default DeleteAction;

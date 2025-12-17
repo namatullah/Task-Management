@@ -11,7 +11,6 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-
 import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addMember } from "@/lib/project";
@@ -68,59 +67,61 @@ const Add = ({
       }
     }
   };
-
   const handleCancel = () => {
     close();
   };
+
   return (
-    <Dialog open={open} fullWidth>
-      <form onSubmit={handleSubmit}>
-        <DialogTitle>New Member</DialogTitle>
-        <DialogContent>
-          <TextField
-            select
-            name="user"
-            margin="dense"
-            id="outlined-select-currency"
-            label="User"
-            variant="outlined"
-            value={user}
-            fullWidth
-            error={!!errors.user}
-            helperText={errors.user}
-            onChange={(e) => setUser(e.target.value)}
-          >
-            {allUsers.map((user: any) => (
-              <MenuItem key={user.id} value={user.id}>
-                {user.name}
-              </MenuItem>
-            ))}
-          </TextField>
-          Project Admin?
-          <Checkbox
-            name="isAdmin"
-            checked={isAdmin}
-            onChange={(e) => setIsAdmin(e.target.checked)}
-            slotProps={{
-              input: { "aria-label": "controlled" },
-            }}
-          />{" "}
-          {submitError && (
-            <Grid marginTop={2}>
-              <Alert severity="error">{submitError}</Alert>
-            </Grid>
-          )}
-        </DialogContent>
-        <DialogActions style={{ padding: "0 25px 20px 20px" }}>
-          <Button variant="contained" color="primary" type="submit">
-            add member
-          </Button>
-          <Button variant="contained" color="error" onClick={handleCancel}>
-            cancel
-          </Button>
-        </DialogActions>
-      </form>
-    </Dialog>
+    <>
+      <Dialog open={open} fullWidth>
+        <form onSubmit={handleSubmit}>
+          <DialogTitle>New Member</DialogTitle>
+          <DialogContent>
+            <TextField
+              select
+              name="user"
+              margin="dense"
+              id="outlined-select-currency"
+              label="User"
+              variant="outlined"
+              value={user}
+              fullWidth
+              error={!!errors.user}
+              helperText={errors.user}
+              onChange={(e) => setUser(e.target.value)}
+            >
+              {allUsers.map((user: any) => (
+                <MenuItem key={user.id} value={user.id}>
+                  {user.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            Project Admin?
+            <Checkbox
+              name="isAdmin"
+              checked={isAdmin}
+              onChange={(e) => setIsAdmin(e.target.checked)}
+              slotProps={{
+                input: { "aria-label": "controlled" },
+              }}
+            />{" "}
+            {submitError && (
+              <Grid marginTop={2}>
+                <Alert severity="error">{submitError}</Alert>
+              </Grid>
+            )}
+          </DialogContent>
+          <DialogActions style={{ padding: "0 25px 20px 20px" }}>
+            <Button variant="contained" color="primary" type="submit">
+              add member
+            </Button>
+            <Button variant="contained" color="error" onClick={handleCancel}>
+              cancel
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </>
   );
 };
 

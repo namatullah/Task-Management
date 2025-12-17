@@ -1,9 +1,5 @@
 "use client";
-import {
-  AddOutlined,
-  DeleteForever,
-  EditNoteOutlined,
-} from "@mui/icons-material";
+import { AddOutlined } from "@mui/icons-material";
 import {
   Alert,
   Button,
@@ -16,16 +12,18 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import Add from "./actions/Add";
 import { fetchMemebers } from "@/lib/project";
 import UserTooltip from "@/components/tasks/child-components/UserTooltip";
 import DeleteAction from "./actions/DeleteAction";
 import { ProjectMemberType } from "@/helpers/types/projects";
+import EditAction from "./actions/EditAction";
 
 const Board = ({ projectId }: number | any) => {
-  const ref = useRef<any>(null);
   const [open, setOpen] = useState(false);
+  const [deleteRender, setDeleteRender] = useState(false);
+  const [editRender, setEditRender] = useState(false);
   const [members, setMemebers] = useState<ProjectMemberType[]>([]);
   const [submitError, setSubmitError] = useState<string | null | undefined>(
     null
@@ -36,7 +34,6 @@ const Board = ({ projectId }: number | any) => {
   const closeForm = () => {
     setOpen(false);
   };
-  console.log(ref.current?.isActionDelete);
   useLayoutEffect(() => {
     const loadMemebers = async () => {
       try {
@@ -50,9 +47,8 @@ const Board = ({ projectId }: number | any) => {
         );
       }
     };
-
     loadMemebers();
-  }, [open, ref.current?.isActionDelete]);
+  }, [open, editRender, deleteRender]);
 
   return (
     <>
@@ -87,8 +83,11 @@ const Board = ({ projectId }: number | any) => {
                     </Tooltip>
                   </TableCell>
                   <TableCell>
-                    <EditNoteOutlined color="secondary" />
-                    <DeleteAction member={member} ref={ref} />
+                    <EditAction member={member} setEditRender={setEditRender} />
+                    <DeleteAction
+                      member={member}
+                      setDeleteRender={setDeleteRender}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -99,5 +98,4 @@ const Board = ({ projectId }: number | any) => {
     </>
   );
 };
-
 export default Board;

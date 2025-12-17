@@ -30,6 +30,13 @@ export const fetchMemebers = async (id: number): Promise<any> => {
   return await api.get(`/projects/${id}/member`);
 };
 
-export const deleteMember = async ( id: number) => {
+export const deleteMember = async (id: number) => {
   return await api.delete(`/projects/member/${id}`);
+};
+
+export const editMember = async (
+  id: number,
+  isAdmin: boolean
+) => {
+  return await api.patch(`/projects/member/${id}`, { isAdmin });
 };
