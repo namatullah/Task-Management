@@ -1,4 +1,7 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateProjectDto } from './create-project.dto';
+import { IsString } from 'class-validator';
+import { ProjectStatus } from '../entities/project.entity';
 
-export class UpdateProjectDto extends PartialType(CreateProjectDto) {}
+export class UpdateProjectDto {
+  @IsString()
+  status: ProjectStatus;
+}

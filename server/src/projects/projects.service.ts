@@ -31,6 +31,7 @@ export class ProjectsService {
   async findAll() {
     const res = await this.projectRespository.find({
       order: { createdAt: 'DESC' },
+      relations: { projectUsers: true },
     });
     return res;
   }
@@ -39,8 +40,11 @@ export class ProjectsService {
     return await this.projectRespository.findOne({ where: { id } });
   }
 
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id} project`;
+  async update(id: number, updateProjectDto: UpdateProjectDto) {
+    const project = await this.projectRespository.findOne({ where: { id } });
+    if (!project) throw new NotFoundException('Project not found');
+    project.status = updateProjectDto.status;
+    return await this.projectRespository.save(project);
   }
 
   remove(id: number) {}

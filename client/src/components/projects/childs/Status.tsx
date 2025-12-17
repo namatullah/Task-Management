@@ -1,19 +1,53 @@
-const Status = ({ status }: { status: string }) => {
+"use client";
+import { ProjectType } from "@/helpers/types/projects";
+import { EditOutlined } from "@mui/icons-material";
+import { useState } from "react";
+import StatusChange from "../actions/StatusChange";
+
+const Status = ({ project }: ProjectType | any) => {
   var textColor = "";
-  switch (status) {
+  switch (project.status) {
     case "not_started":
-      textColor = "#1B1920FF"; break;
+      textColor = "#A0A0A0";
+      break;
     case "in_progress":
-      textColor = "#0288d1";break;
+      textColor = "#007BFF";
+      break;
     case "completed":
-      textColor = "#21E62BFF";break;
+      textColor = "#28A745";
+      break;
     case "on_hold":
-      textColor = "#ed6c02";break;
+      textColor = "#FFC107";
+      break;
     case "cancelled":
-      textColor = "#d32f2f";break;
+      textColor = "#DC3545";
+      break;
   }
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+    // setDeleteRender(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    // setDeleteRender(false);
+  };
   return (
-    <p style={{ color: textColor }}>{status?.replace("_", " ").toUpperCase()}</p>
+    <p>
+      <span style={{ color: textColor, fontWeight: "bold" }}>
+        {project.status?.replace("_", " ").toUpperCase()}
+      </span>{" "}
+      {open && (
+        <StatusChange open={open} close={handleClose} project={project} />
+      )}
+      <EditOutlined
+        fontSize="small"
+        sx={{ fontWeight: "300" }}
+        color="primary"
+        onClick={handleOpen}
+      />
+    </p>
   );
 };
 

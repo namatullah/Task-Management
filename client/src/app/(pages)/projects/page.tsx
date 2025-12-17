@@ -1,11 +1,9 @@
 import ProjectTitle from "@/components/projects/childs/ProjectTitle";
 import { listProject } from "@/lib/project";
 import {
-  Alert,
   Box,
   Card,
   CardContent,
-  Grid,
   Paper,
   Table,
   TableBody,
@@ -13,13 +11,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 import Board from "@/components/projects/board/Board";
 import Link from "next/link";
 import ProjectContent from "@/components/projects/childs/ProjectContent";
 import { DeleteForever, EditNoteOutlined } from "@mui/icons-material";
 import Status from "@/components/projects/childs/Status";
+import ApiError from "@/components/commons/ApiError";
 
 const page = async () => {
   var apiError = "";
@@ -31,16 +29,11 @@ const page = async () => {
     apiError =
       error?.response?.data.message || error.message || "failed to load tasks";
   }
-
+  console.log(projects[1].projectUsers.length);
   return (
     <Card elevation={0}>
       <CardContent>
-        {apiError && (
-          <Grid marginTop={2}>
-            <Alert severity="error">{apiError}</Alert>
-          </Grid>
-        )}
-
+        <ApiError message={apiError} />
         <TableContainer component={Paper} elevation={6}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -60,7 +53,7 @@ const page = async () => {
                     }}
                   >
                     <ProjectContent project={project} />
-                    <Status status={project.status} />
+                    <Status project={project} />
                     <Box
                       sx={{ display: "flex", justifyContent: "space-between" }}
                     >
@@ -68,16 +61,18 @@ const page = async () => {
                         <EditNoteOutlined color="secondary" />
                         <DeleteForever color="error" />
                       </Box>
-                      <Link
-                        href={`/projects/${project.id}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        Tasks details...
-                      </Link>
+                      {project.projectUsers.length > 0 && (
+                        <Link
+                          href={`/projects/${project.id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          Tasks details...
+                        </Link>
+                      )}
                     </Box>
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top" }}>
-                    <Board projectId={project.id} />
+                    <Board projectId={project.id} status={project.status} />
                   </TableCell>
                 </TableRow>
               ))}

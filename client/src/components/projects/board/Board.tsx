@@ -20,7 +20,13 @@ import DeleteAction from "./actions/DeleteAction";
 import { ProjectMemberType } from "@/helpers/types/projects";
 import EditAction from "./actions/EditAction";
 
-const Board = ({ projectId }: number | any) => {
+const Board = ({
+  projectId,
+  status,
+}: {
+  projectId: number | any;
+  status: string;
+}) => {
   const [open, setOpen] = useState(false);
   const [deleteRender, setDeleteRender] = useState(false);
   const [editRender, setEditRender] = useState(false);
@@ -58,9 +64,7 @@ const Board = ({ projectId }: number | any) => {
           <TableBody>
             <TableRow>
               <TableCell colSpan={2}>
-                <p>
-                  <b>Board Members</b>
-                </p>
+                <b>Board Members</b>
                 {submitError && (
                   <Grid marginTop={2}>
                     <Alert severity="error">{submitError}</Alert>
@@ -93,7 +97,15 @@ const Board = ({ projectId }: number | any) => {
               ))}
           </TableBody>
         </Table>
-        <Button startIcon={<AddOutlined />} onClick={openForm} />
+        <Button
+          startIcon={<AddOutlined />}
+          onClick={openForm}
+          disabled={
+            ["not_started", "completed", "cancelled"].includes(status)
+              ? true
+              : false
+          }
+        />
       </TableContainer>
     </>
   );

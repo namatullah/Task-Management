@@ -21,6 +21,13 @@ export const listProject = async () => {
 export const getProject = async (id: number): Promise<any> => {
   return await api.get(`/projects/${id}`);
 };
+export const changeProjectStatus = async (
+  id: number,
+  status: string
+) => {
+  return await api.patch(`/projects/${id}`, { status });
+};
+
 
 export const addMember = async (id: number, data: any) => {
   return await api.post(`/projects/${id}/member`, data);

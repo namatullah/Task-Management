@@ -5,6 +5,7 @@ export interface ProjectType {
   name: string;
   description?: string;
   status?: string;
+  projectUsers:ProjectMemberType | any
 }
 
 export interface ProjectMemberType {
