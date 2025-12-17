@@ -1,5 +1,9 @@
 "use client";
-import { AddOutlined } from "@mui/icons-material";
+import {
+  AddOutlined,
+  DeleteForever,
+  EditNoteOutlined,
+} from "@mui/icons-material";
 import {
   Alert,
   Button,
@@ -12,12 +16,10 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import Add from "./actions/Add";
 import { fetchMemebers } from "@/lib/project";
 import UserTooltip from "@/components/tasks/child-components/UserTooltip";
-import Test from "./actions/Test";
 
 const Board = ({ projectId }: number | any) => {
   const [open, setOpen] = useState(false);
@@ -49,14 +51,7 @@ const Board = ({ projectId }: number | any) => {
   }, [open]);
   return (
     <>
-      {open && (
-        <Add
-          members={members}
-          open={open}
-          close={closeForm}
-          projectId={projectId}
-        />
-      )}
+      {open && <Add open={open} close={closeForm} projectId={projectId} />}
       <TableContainer component={Paper}>
         <Table size="small">
           <TableBody>
@@ -72,19 +67,26 @@ const Board = ({ projectId }: number | any) => {
                 )}
               </TableCell>
             </TableRow>
-            {members.map((member: any, index) => (
-              <TableRow key={member.id}>
-                <TableCell>
-                  <Tooltip title={<UserTooltip user={member} />}>
-                    <span>{member.name}</span>
-                  </Tooltip>
-                </TableCell>
-                <TableCell>
-                  <DeleteIcon color="error" />
-                </TableCell>
-              </TableRow>
-            ))}
-            
+            {members
+              .sort((a: any, b: any) => b.isAdmin - a.isAdmin)
+              .map((member: any, index) => (
+                <TableRow key={member.id}>
+                  <TableCell>
+                    <Tooltip title={<UserTooltip user={member} />}>
+                      <span>
+                        {member.user.name}{" "}
+                        {member.isAdmin && (
+                          <span style={{ color: "blue" }}>(Admin)</span>
+                        )}
+                      </span>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
+                    <EditNoteOutlined color="secondary" />
+                    <DeleteForever color="error" />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
         <Button startIcon={<AddOutlined />} onClick={openForm} />

@@ -2,18 +2,24 @@ import ProjectTitle from "@/components/projects/childs/ProjectTitle";
 import { listProject } from "@/lib/project";
 import {
   Alert,
-  Button,
+  Box,
   Card,
   CardContent,
   Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Board from "@/components/projects/board/Board";
-import Status from "@/components/projects/childs/Status";
 import Link from "next/link";
 import ProjectContent from "@/components/projects/childs/ProjectContent";
+import { DeleteForever, EditNoteOutlined } from "@mui/icons-material";
+import Status from "@/components/projects/childs/Status";
 
 const page = async () => {
   var apiError = "";
@@ -27,46 +33,57 @@ const page = async () => {
   }
 
   return (
-    <Card elevation={6} sx={{ m: 2 }}>
+    <Card elevation={0}>
       <CardContent>
         {apiError && (
           <Grid marginTop={2}>
             <Alert severity="error">{apiError}</Alert>
           </Grid>
         )}
-        <Grid container spacing={2}>
-          <Grid size={12}>
-            <ProjectTitle />
-          </Grid>
-          {projects.map((project: any) => (
-            <Grid
-              size={{ xs: 12, md: 6, lg: 4, xl: 3 }}
-              sx={{
-                backgroundColor: "#f0f0f2",
-                padding: 1,
-                borderRadius: 1,
-              }}
-              key={project.id}
-            >
-              <div style={{ display: "flex" }}>
-                <div style={{ display: "column", width: "80%", margin: 4 }}>
-                  <ProjectContent project={project} />
-                  <EditNoteIcon color="secondary" />
-                  <DeleteIcon color="error" />
-                  <br />
-                  <br />
-                  <Link
-                    href={`/projects/${project.id}`}
-                    style={{ textDecoration: "none" }}
+
+        <TableContainer component={Paper} elevation={6}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left" colSpan={2}>
+                  <ProjectTitle />
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {projects.map((project: any) => (
+                <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
+                  <TableCell
+                    width="50%"
+                    sx={{
+                      verticalAlign: "top",
+                    }}
                   >
-                    Tasks details...
-                  </Link>
-                </div>
-                <Board projectId={project.id} />
-              </div>
-            </Grid>
-          ))}
-        </Grid>
+                    <ProjectContent project={project} />
+                    <Status status={project.status} />
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <Box>
+                        <EditNoteOutlined color="secondary" />
+                        <DeleteForever color="error" />
+                      </Box>
+                      <Link
+                        href={`/projects/${project.id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        Tasks details...
+                      </Link>
+                    </Box>
+                  </TableCell>
+                  <TableCell sx={{ verticalAlign: "top" }}>
+                    <Board projectId={project.id} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </CardContent>
     </Card>
   );

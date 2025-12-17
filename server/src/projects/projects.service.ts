@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +10,8 @@ import { Project } from './entities/project.entity';
 import { Repository } from 'typeorm';
 import { PaginatedResponseDto, PaginationDto } from 'src/dto/pagination.dto';
 import { User } from 'src/users/entities/user.entity';
+import { ProjectUser } from './entities/project_user.entity';
+import { CreateProjectUserDto } from './dto/project_user/create-projectUser.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -13,6 +19,8 @@ export class ProjectsService {
     @InjectRepository(Project)
     private readonly projectRespository: Repository<Project>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(ProjectUser)
+    private readonly projectUserRepository: Repository<ProjectUser>,
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
@@ -28,7 +36,7 @@ export class ProjectsService {
   }
 
   async findOne(id: number) {
-    return await this.projectRespository.findOne({where:{id}});
+    return await this.projectRespository.findOne({ where: { id } });
   }
 
   update(id: number, updateProjectDto: UpdateProjectDto) {
@@ -40,16 +48,23 @@ export class ProjectsService {
   }
   async getMemberOfProject(id: number) {
     const project = await this.projectRespository.findOne({
-      where: { id },
-      relations: ['users'],
+      where: { id: id },
+      relations: {
+        projectUsers: {
+          user: true,
+        },
+      },
     });
     if (!project) throw new NotFoundException('Project not found');
-    return project.users;
+    return project.projectUsers;
   }
-  async addMemberToProject(id: number, userId: string) {
+
+  async addMemberToProject(
+    id: number,
+    createProjectUserDto: CreateProjectUserDto,
+  ) {
     const project = await this.projectRespository.findOne({
       where: { id },
-      relations: ['users'],
     });
 
     if (!project) {
@@ -57,20 +72,33 @@ export class ProjectsService {
     }
 
     const user = await this.userRepository.findOne({
-      where: { id: userId },
+      where: { id: createProjectUserDto.userId },
     });
 
     if (!user) {
-      throw new NotFoundException(`User with the ID ${userId} not found`);
+      throw new NotFoundException(
+        `User with the ID ${createProjectUserDto.userId} not found`,
+      );
     }
 
-    if (project.users.some((u) => u.id === user.id)) {
-      throw new NotFoundException('This user is already a member of board');
-    } else {
-      project.users.push(user);
-      await this.projectRespository.save(project);
+    const exists = await this.projectUserRepository.findOne({
+      where: {
+        project: { id: id },
+        user: { id: createProjectUserDto.userId },
+      },
+    });
+    if (exists) {
+      throw new BadRequestException('this user already is in the project');
     }
 
-    return project;
+    const projectUser = this.projectUserRepository.create({
+      project,
+      user,
+      isAdmin: createProjectUserDto.isAdmin,
+    });
+
+    await this.projectUserRepository.save(projectUser);
+
+    return projectUser;
   }
 }

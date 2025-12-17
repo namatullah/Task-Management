@@ -9,7 +9,7 @@ interface ProjectType {
 const ProjectContent = ({ project }: ProjectType| any) => {
   return (
     <div>
-      <p>{project.name}</p>
+      <p style={{fontWeight:'bold'}}>{project.name}</p>
       <p style={{ fontSize: "0.8rem" }}>{project.description}</p>
     </div>
   );

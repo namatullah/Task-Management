@@ -15,8 +15,8 @@ export const createProject = async (data: {
   return await api.post("/projects", data);
 };
 
-export const addMember = async (id: number, userId: string) => {
-  return await api.post(`/projects/${id}/member/${userId}`);
+export const addMember = async (id: number, data: any) => {
+  return await api.post(`/projects/${id}/member`, data);
 };
 
 export const fetchMemebers = async (id: number): Promise<any> => {

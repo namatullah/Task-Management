@@ -13,6 +13,7 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { PaginationDto } from 'src/dto/pagination.dto';
 import { Project } from './entities/project.entity';
+import { CreateProjectUserDto } from './dto/project_user/create-projectUser.dto';
 
 @Controller('projects')
 export class ProjectsController {
@@ -43,12 +44,12 @@ export class ProjectsController {
     return this.projectsService.remove(+id);
   }
 
-  @Post(':id/member/:userId')
+  @Post(':id/member')
   addMemberToProject(
     @Param('id') id: number | string,
-    @Param('userId') userId: string,
+    @Body() createProjectUserDto: CreateProjectUserDto,
   ) {
-    return this.projectsService.addMemberToProject(+id, userId);
+    return this.projectsService.addMemberToProject(+id, createProjectUserDto);
   }
 
   @Get(':id/member')

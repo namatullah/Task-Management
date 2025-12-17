@@ -2,10 +2,15 @@
 import {
   Alert,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  FormHelperText,
   Grid,
   MenuItem,
   TextField,
@@ -13,16 +18,14 @@ import {
 
 import React, { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { addMember, createProject } from "@/lib/project";
+import { addMember } from "@/lib/project";
 import { fetchUsers } from "@/lib/user";
 
 const Add = ({
-  members,
   open,
   close,
   projectId,
 }: {
-  members: any;
   open: boolean;
   close: () => void;
   projectId: number;
@@ -39,6 +42,7 @@ const Add = ({
   }, []);
 
   const [user, setUser] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [errors, setErrors] = useState<{
     user?: string;
@@ -49,13 +53,14 @@ const Add = ({
     const newErrors: typeof errors = {};
 
     if (!user) newErrors.user = "Select a user";
-
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      console.log(user);
-      // submit
+      const data = {
+        userId: user,
+        isAdmin: isAdmin,
+      };
       try {
-        await addMember(projectId, user);
+        await addMember(projectId, data);
         router.push("/projects");
         close();
       } catch (error: any) {
@@ -95,6 +100,14 @@ const Add = ({
               </MenuItem>
             ))}
           </TextField>
+          <Checkbox
+            name="isAdmin"
+            checked={isAdmin}
+            onChange={(e) => setIsAdmin(e.target.checked)}
+            slotProps={{
+              input: { "aria-label": "controlled" },
+            }}
+          />
 
           {submitError && (
             <Grid marginTop={2}>

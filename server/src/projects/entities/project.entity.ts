@@ -1,15 +1,13 @@
 import { Task } from 'src/tasks/entities/task.entity';
-import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProjectUser } from './project_user.entity';
 
 export enum ProjectStatus {
   NOT_STARTED = 'not_started',
@@ -36,9 +34,8 @@ export class Project {
   })
   status: ProjectStatus;
 
-  @ManyToMany(() => User, (user) => user.projects)
-  @JoinTable()
-  users: User[];
+  @OneToMany(() => ProjectUser, (pu) => pu.project)
+  projectUsers: ProjectUser[];
 
   @OneToMany(() => Task, (task) => task.project)
   tasks: Task[];

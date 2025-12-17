@@ -43,7 +43,7 @@ const UserMenu = () => {
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <p style={{ margin: "3px", color: "#fff" }}>
-                    Hello, {user.name  || user.email}
+                    Hello, {user.name || user.email}
                   </p>
                   <Avatar alt={user?.name} style={{ margin: "3px" }} />
                 </IconButton>
