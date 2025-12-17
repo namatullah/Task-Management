@@ -100,6 +100,7 @@ const Add = ({
               </MenuItem>
             ))}
           </TextField>
+          Project Admin?
           <Checkbox
             name="isAdmin"
             checked={isAdmin}
@@ -108,7 +109,6 @@ const Add = ({
               input: { "aria-label": "controlled" },
             }}
           />
-
           {submitError && (
             <Grid marginTop={2}>
               <Alert severity="error">{submitError}</Alert>
