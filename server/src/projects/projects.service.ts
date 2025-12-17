@@ -53,7 +53,11 @@ export class ProjectsService {
     return await this.projectRespository.save(project);
   }
 
-  remove(id: number) {}
+  async remove(id: number) {
+    const project = await this.projectRespository.findOne({ where: { id } });
+    if (!project) throw new NotFoundException('Project Note found');
+    return this.projectRespository.remove(project);
+  }
 
   async getMemberOfProject(id: number) {
     const project = await this.projectRespository.findOne({

@@ -19,6 +19,10 @@ export const editProject = async (id: number, data: ProjectType) => {
   return await api.patch(`/projects/${id}`, data);
 };
 
+export const deleteProject = async (id: number | any) => {
+  return await api.delete(`/projects/${id}`);
+};
+
 export const addMember = async (id: number, data: any) => {
   return await api.post(`/projects/${id}/member`, data);
 };

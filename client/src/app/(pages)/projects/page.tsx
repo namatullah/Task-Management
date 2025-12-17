@@ -20,6 +20,7 @@ import Status from "@/components/projects/childs/Status";
 import ApiError from "@/components/commons/ApiError";
 import { ProjectType } from "@/helpers/types/projects";
 import EditAction from "@/components/projects/childs/EditAction";
+import DeleteAction from "@/components/projects/childs/DeleteAction";
 
 const page = async () => {
   var apiError = "";
@@ -61,7 +62,7 @@ const page = async () => {
                     >
                       <Box>
                         <EditAction project={project} />
-                        <DeleteForever color="error" />
+                        <DeleteAction project={project} />
                       </Box>
                       {project.projectUsers.length > 0 && (
                         <Link
