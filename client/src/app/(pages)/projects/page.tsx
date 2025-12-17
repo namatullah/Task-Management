@@ -18,6 +18,8 @@ import ProjectContent from "@/components/projects/childs/ProjectContent";
 import { DeleteForever, EditNoteOutlined } from "@mui/icons-material";
 import Status from "@/components/projects/childs/Status";
 import ApiError from "@/components/commons/ApiError";
+import { ProjectType } from "@/helpers/types/projects";
+import EditAction from "@/components/projects/childs/EditAction";
 
 const page = async () => {
   var apiError = "";
@@ -44,7 +46,7 @@ const page = async () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {projects.map((project: any) => (
+              {projects.map((project: ProjectType | any) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
                   <TableCell
                     width="50%"
@@ -58,7 +60,7 @@ const page = async () => {
                       sx={{ display: "flex", justifyContent: "space-between" }}
                     >
                       <Box>
-                        <EditNoteOutlined color="secondary" />
+                        <EditAction project={project} />
                         <DeleteForever color="error" />
                       </Box>
                       {project.projectUsers.length > 0 && (

@@ -27,11 +27,9 @@ const Status = ({ project }: ProjectType | any) => {
 
   const handleOpen = () => {
     setOpen(true);
-    // setDeleteRender(true);
   };
   const handleClose = () => {
     setOpen(false);
-    // setDeleteRender(false);
   };
   return (
     <p>

@@ -26,7 +26,7 @@ const StatusChange = ({
   project: ProjectType;
 }) => {
   const router = useRouter();
-  const [status, setStatus] = useState(project.status);
+  const [status, setStatus] = useState(project?.status);
   const [apiError, setApiError] = useState<string | null | undefined>(null);
   const handleSubmit = async (e: any) => {
     e.preventDefault();

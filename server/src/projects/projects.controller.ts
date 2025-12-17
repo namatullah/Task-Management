@@ -12,6 +12,7 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { CreateProjectUserDto } from './dto/project_user/create-projectUser.dto';
 import { UpdateProjectUserDto } from './dto/project_user/update-projectUser.dto';
+import { ProjectStatus } from './entities/project.entity';
 
 @Controller('projects')
 export class ProjectsController {
@@ -35,6 +36,11 @@ export class ProjectsController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectsService.update(+id, updateProjectDto);
+  }
+
+  @Patch(':id/status')
+  updateStatus(@Param('id') id: string, @Body('status') status: ProjectStatus) {
+    return this.projectsService.updateStatus(+id, status);
   }
 
   @Delete(':id')

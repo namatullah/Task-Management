@@ -6,7 +6,7 @@ import {
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Project } from './entities/project.entity';
+import { Project, ProjectStatus } from './entities/project.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { ProjectUser } from './entities/project_user.entity';
@@ -39,11 +39,17 @@ export class ProjectsService {
   async findOne(id: number) {
     return await this.projectRespository.findOne({ where: { id } });
   }
-
   async update(id: number, updateProjectDto: UpdateProjectDto) {
     const project = await this.projectRespository.findOne({ where: { id } });
     if (!project) throw new NotFoundException('Project not found');
-    project.status = updateProjectDto.status;
+    project.name = updateProjectDto.name;
+    project.description = updateProjectDto.description;
+    return await this.projectRespository.save(project);
+  }
+  async updateStatus(id: number, status: ProjectStatus) {
+    const project = await this.projectRespository.findOne({ where: { id } });
+    if (!project) throw new NotFoundException('Project not found');
+    project.status = status;
     return await this.projectRespository.save(project);
   }
 

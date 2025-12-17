@@ -1,11 +1,11 @@
 import { UserType } from "./users";
 
 export interface ProjectType {
-  id: number;
+  id?: number;
   name: string;
-  description?: string;
+  description: string;
   status?: string;
-  projectUsers:ProjectMemberType | any
+  projectUsers?:ProjectMemberType | any
 }
 
 export interface ProjectMemberType {
