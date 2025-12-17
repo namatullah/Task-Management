@@ -11,8 +11,7 @@ export interface TasksType {
     id?: string;
     email?: string;
     role?: string;
-    firstName?: string;
-    lastName?: string;
+    name?: string;
   };
   isArchived?: boolean;
   project?: {

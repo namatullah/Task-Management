@@ -16,14 +16,17 @@ import {
   TableRow,
   Tooltip,
 } from "@mui/material";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import Add from "./actions/Add";
 import { fetchMemebers } from "@/lib/project";
 import UserTooltip from "@/components/tasks/child-components/UserTooltip";
+import DeleteAction from "./actions/DeleteAction";
+import { ProjectMemberType } from "@/helpers/types/projects";
 
 const Board = ({ projectId }: number | any) => {
+  const ref = useRef<any>(null);
   const [open, setOpen] = useState(false);
-  const [members, setMemebers] = useState([]);
+  const [members, setMemebers] = useState<ProjectMemberType[]>([]);
   const [submitError, setSubmitError] = useState<string | null | undefined>(
     null
   );
@@ -33,6 +36,7 @@ const Board = ({ projectId }: number | any) => {
   const closeForm = () => {
     setOpen(false);
   };
+  console.log(ref.current?.isActionDelete);
   useLayoutEffect(() => {
     const loadMemebers = async () => {
       try {
@@ -48,7 +52,8 @@ const Board = ({ projectId }: number | any) => {
     };
 
     loadMemebers();
-  }, [open]);
+  }, [open, ref.current?.isActionDelete]);
+
   return (
     <>
       {open && <Add open={open} close={closeForm} projectId={projectId} />}
@@ -69,10 +74,10 @@ const Board = ({ projectId }: number | any) => {
             </TableRow>
             {members
               .sort((a: any, b: any) => b.isAdmin - a.isAdmin)
-              .map((member: any, index) => (
+              .map((member: ProjectMemberType, index) => (
                 <TableRow key={member.id}>
                   <TableCell>
-                    <Tooltip title={<UserTooltip user={member} />}>
+                    <Tooltip title={<UserTooltip user={member.user} />}>
                       <span>
                         {member.user.name}{" "}
                         {member.isAdmin && (
@@ -83,7 +88,7 @@ const Board = ({ projectId }: number | any) => {
                   </TableCell>
                   <TableCell>
                     <EditNoteOutlined color="secondary" />
-                    <DeleteForever color="error" />
+                    <DeleteAction member={member} ref={ref} />
                   </TableCell>
                 </TableRow>
               ))}

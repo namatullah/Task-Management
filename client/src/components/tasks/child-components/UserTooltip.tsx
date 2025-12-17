@@ -1,17 +1,11 @@
+import { UserType } from "@/helpers/types/users";
 import { List, ListItem } from "@mui/material";
 
-const UserTooltip = ({
-  user,
-}: {
-  user: { firstName: string; lastName: string; email: string; role: string };
-}) => {
+const UserTooltip = ({ user }: UserType | any) => {
   return (
     <List sx={{ fontSize: "10px" }}>
       <ListItem>
-        First Name:&nbsp;<b>{user?.firstName}</b>
-      </ListItem>
-      <ListItem>
-        Last Name:&nbsp;<b>{user?.lastName}</b>
+        Full Name:&nbsp;<b>{user?.name}</b>
       </ListItem>
       <ListItem>
         Email:&nbsp;<b>{user?.email}</b>

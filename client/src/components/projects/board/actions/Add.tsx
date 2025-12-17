@@ -7,16 +7,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
   Grid,
   MenuItem,
   TextField,
 } from "@mui/material";
 
-import React, { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { addMember } from "@/lib/project";
 import { fetchUsers } from "@/lib/user";
@@ -108,7 +104,7 @@ const Add = ({
             slotProps={{
               input: { "aria-label": "controlled" },
             }}
-          />
+          />{" "}
           {submitError && (
             <Grid marginTop={2}>
               <Alert severity="error">{submitError}</Alert>

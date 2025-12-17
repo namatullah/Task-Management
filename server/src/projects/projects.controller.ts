@@ -56,4 +56,9 @@ export class ProjectsController {
   getMemberOfProject(@Param('id') id: number | string) {
     return this.projectsService.getMemberOfProject(+id);
   }
+
+  @Delete('member/:memberId')
+  removeMember(@Param('memberId') memberId: number) {
+    return this.projectsService.removeMember(memberId);
+  }
 }

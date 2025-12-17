@@ -15,6 +15,13 @@ export const createProject = async (data: {
   return await api.post("/projects", data);
 };
 
+export const listProject = async () => {
+  return await api.get("/projects");
+};
+export const getProject = async (id: number): Promise<any> => {
+  return await api.get(`/projects/${id}`);
+};
+
 export const addMember = async (id: number, data: any) => {
   return await api.post(`/projects/${id}/member`, data);
 };
@@ -23,9 +30,6 @@ export const fetchMemebers = async (id: number): Promise<any> => {
   return await api.get(`/projects/${id}/member`);
 };
 
-export const listProject = async () => {
-  return await api.get("/projects");
-};
-export const getProject = async (id: number): Promise<any> => {
-  return await api.get(`/projects/${id}`);
+export const deleteMember = async ( id: number) => {
+  return await api.delete(`/projects/member/${id}`);
 };

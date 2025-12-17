@@ -43,15 +43,15 @@ export class ProjectsService {
     return `This action updates a #${id} project`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} project`;
-  }
+  remove(id: number) {}
+
   async getMemberOfProject(id: number) {
     const project = await this.projectRespository.findOne({
       where: { id: id },
       relations: {
         projectUsers: {
           user: true,
+          project: true,
         },
       },
     });
@@ -100,5 +100,13 @@ export class ProjectsService {
     await this.projectUserRepository.save(projectUser);
 
     return projectUser;
+  }
+  async removeMember(memberId: number) {
+    const member = await this.projectUserRepository.findOne({
+      where: { id: memberId },
+    });
+    if (!member) throw new NotFoundException('Member in the project not found');
+
+    return await this.projectUserRepository.remove(member);
   }
 }
