@@ -6,14 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { PaginationDto } from 'src/dto/pagination.dto';
-import { Project } from './entities/project.entity';
 import { CreateProjectUserDto } from './dto/project_user/create-projectUser.dto';
+import { UpdateProjectUserDto } from './dto/project_user/update-projectUser.dto';
 
 @Controller('projects')
 export class ProjectsController {
@@ -60,5 +58,13 @@ export class ProjectsController {
   @Delete('member/:memberId')
   removeMember(@Param('memberId') memberId: number) {
     return this.projectsService.removeMember(memberId);
+  }
+
+  @Patch('member/:id')
+  updateMember(
+    @Param('id') id: string,
+    @Body() updateProjectUserDto: UpdateProjectUserDto,
+  ) {
+    return this.projectsService.updateMember(+id, updateProjectUserDto);
   }
 }

@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsUUID } from 'class-validator';
 
 export class CreateProjectUserDto {
   @IsUUID()

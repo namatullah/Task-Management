@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateProjectUserDto } from './create-projectUser.dto';
+import { IsBoolean } from "class-validator";
 
-export class UpdateProjectUserDto extends PartialType(CreateProjectUserDto) {}
+export class UpdateProjectUserDto {
+  @IsBoolean()
+  isAdmin: boolean;
+}

@@ -8,10 +8,10 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from './entities/project.entity';
 import { Repository } from 'typeorm';
-import { PaginatedResponseDto, PaginationDto } from 'src/dto/pagination.dto';
 import { User } from 'src/users/entities/user.entity';
 import { ProjectUser } from './entities/project_user.entity';
 import { CreateProjectUserDto } from './dto/project_user/create-projectUser.dto';
+import { UpdateProjectUserDto } from './dto/project_user/update-projectUser.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -108,5 +108,16 @@ export class ProjectsService {
     if (!member) throw new NotFoundException('Member in the project not found');
 
     return await this.projectUserRepository.remove(member);
+  }
+
+  async updateMember(id: number, updateProjectUserDto: UpdateProjectUserDto) {
+    const projectUser = await this.projectUserRepository.findOne({
+      where: { id: id },
+    });
+    if (!projectUser) {
+      throw new NotFoundException('The member is not found in board');
+    }
+    projectUser.isAdmin = updateProjectUserDto.isAdmin;
+    return await this.projectUserRepository.save(projectUser);
   }
 }
