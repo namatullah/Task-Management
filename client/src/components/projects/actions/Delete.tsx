@@ -1,14 +1,12 @@
 import ApiError from "@/components/commons/ApiError";
-import { ProjectMemberType, ProjectType } from "@/helpers/types/projects";
-import { deleteMember, deleteProject } from "@/lib/project";
+import { ProjectType } from "@/helpers/types/projects";
+import { deleteProject } from "@/lib/project";
 import {
-  Alert,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  Grid,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

@@ -1,9 +1,10 @@
 import Board from "@/components/projects/board/Board";
 import Status from "@/components/projects/childs/Status";
 import { getProject } from "@/lib/project";
-import { Alert, Card, CardContent, Grid } from "@mui/material";
+import { Card, CardContent, Grid } from "@mui/material";
 import ProjectContent from "@/components/projects/childs/ProjectContent";
 import Tasks from "@/components/tasks/Tasks";
+import ApiError from "@/components/commons/ApiError";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -21,11 +22,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
       <CardContent>
         <Card elevation={6}>
           <CardContent>
-            {apiError && (
-              <Grid marginTop={2}>
-                <Alert severity="error">{apiError}</Alert>
-              </Grid>
-            )}
+            <ApiError message={apiError} />
             <Grid container spacing={2}>
               <Grid
                 size={12}
@@ -39,9 +36,9 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 <div style={{ display: "flex" }}>
                   <div style={{ display: "column", width: "80%", margin: 4 }}>
                     <ProjectContent project={project} />
-                    <Status status={project.status} />
+                    <Status project={project} />
                   </div>
-                  <Board projectId={project.id} />
+                  <Board projectId={project.id} status={project.status} />
                 </div>
               </Grid>
             </Grid>

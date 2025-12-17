@@ -6,7 +6,7 @@ import StatusChange from "../actions/StatusChange";
 
 const Status = ({ project }: ProjectType | any) => {
   var textColor = "";
-  switch (project.status) {
+  switch (project?.status) {
     case "not_started":
       textColor = "#A0A0A0";
       break;
