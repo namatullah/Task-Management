@@ -23,7 +23,7 @@ const StatusChange = ({
 }: {
   open: boolean;
   close: () => void;
-  project: ProjectType;
+  project: ProjectType | any;
 }) => {
   const router = useRouter();
   const [status, setStatus] = useState(project?.status);

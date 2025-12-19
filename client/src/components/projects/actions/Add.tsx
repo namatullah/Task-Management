@@ -42,7 +42,7 @@ const Add = ({ open, close }: { open: boolean; close: () => void }) => {
     if (Object.keys(newErrors).length === 0) {
       // submit
       try {
-        await createProject({ ...postData, status: "not_started" });
+        await createProject({ ...postData, status: "planned" });
         router.push("/projects");
         close();
       } catch (error: any) {

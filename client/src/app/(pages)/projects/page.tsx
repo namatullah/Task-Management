@@ -15,7 +15,6 @@ import {
 import Board from "@/components/projects/board/Board";
 import Link from "next/link";
 import ProjectContent from "@/components/projects/childs/ProjectContent";
-import { DeleteForever, EditNoteOutlined } from "@mui/icons-material";
 import Status from "@/components/projects/childs/Status";
 import ApiError from "@/components/commons/ApiError";
 import { ProjectType } from "@/helpers/types/projects";
@@ -48,7 +47,11 @@ const page = async () => {
             </TableHead>
             <TableBody>
               {projects.map((project: ProjectType | any) => (
+                
                 <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
+                  <TableCell sx={{ verticalAlign: "top" }}>
+                    <Board projectId={project.id} status={project.status} />
+                  </TableCell>
                   <TableCell
                     width="50%"
                     sx={{
