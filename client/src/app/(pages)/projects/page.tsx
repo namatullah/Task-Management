@@ -20,6 +20,7 @@ import ApiError from "@/components/commons/ApiError";
 import { ProjectType } from "@/helpers/types/projects";
 import EditAction from "@/components/projects/childs/EditAction";
 import DeleteAction from "@/components/projects/childs/DeleteAction";
+import ProjectStepper from "@/components/projects/stepper/ProjectStepper";
 
 const page = async () => {
   var apiError = "";
@@ -31,7 +32,6 @@ const page = async () => {
     apiError =
       error?.response?.data.message || error.message || "failed to load tasks";
   }
-  console.log(projects[1].projectUsers.length);
   return (
     <Card elevation={0}>
       <CardContent>
@@ -47,37 +47,40 @@ const page = async () => {
             </TableHead>
             <TableBody>
               {projects.map((project: ProjectType | any) => (
-                
                 <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
                   <TableCell sx={{ verticalAlign: "top" }}>
-                    <Board projectId={project.id} status={project.status} />
+                    <ProjectStepper project={project} />
                   </TableCell>
                   <TableCell
-                    width="50%"
+                    width="60%"
                     sx={{
                       verticalAlign: "top",
                     }}
                   >
-                    <ProjectContent project={project} />
-                    <Status project={project} />
-                    <Box
-                      sx={{ display: "flex", justifyContent: "space-between" }}
-                    >
-                      <Box>
-                        <EditAction project={project} />
-                        <DeleteAction project={project} />
+                    <div>
+                      <ProjectContent project={project} />
+                      <Status project={project} />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Box>
+                          <EditAction project={project} />
+                          <DeleteAction project={project} />
+                        </Box>
+                        {project.projectUsers.length > 0 && (
+                          <Link
+                            href={`/projects/${project.id}`}
+                            style={{ textDecoration: "none" }}
+                          >
+                            Tasks details...
+                          </Link>
+                        )}
                       </Box>
-                      {project.projectUsers.length > 0 && (
-                        <Link
-                          href={`/projects/${project.id}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          Tasks details...
-                        </Link>
-                      )}
-                    </Box>
-                  </TableCell>
-                  <TableCell sx={{ verticalAlign: "top" }}>
+                    </div>
+                    <br />
                     <Board projectId={project.id} status={project.status} />
                   </TableCell>
                 </TableRow>

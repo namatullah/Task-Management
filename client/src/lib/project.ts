@@ -11,7 +11,7 @@ export const listProject = async () => {
 export const getProject = async (id: number): Promise<any> => {
   return await api.get(`/projects/${id}`);
 };
-export const changeProjectStatus = async (id: number, status: string | any) => {
+export const changeProjectStatus = async (id: number|any, status: string | any) => {
   return await api.patch(`/projects/${id}/status`, { status });
 };
 

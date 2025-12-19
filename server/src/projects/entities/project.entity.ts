@@ -10,10 +10,14 @@ import {
 import { ProjectUser } from './project_user.entity';
 
 export enum ProjectStatus {
+  PLANNED = 'planned',
   NOT_STARTED = 'not_started',
   IN_PROGRESS = 'in_progress',
-  COMPLETED = 'completed',
   ON_HOLD = 'on_hold',
+  REVIEW = 'review',
+  TESTING = 'testing',
+  IN_READY = 'in_ready',
+  COMPLETED = 'completed',
   CANCELLED = 'cancelled',
 }
 @Entity()

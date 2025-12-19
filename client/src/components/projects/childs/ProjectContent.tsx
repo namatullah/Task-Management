@@ -1,3 +1,4 @@
+"use client";
 import { User } from "@/helpers/types/users";
 
 interface ProjectType {
@@ -6,10 +7,10 @@ interface ProjectType {
   status: string;
   users?: User[];
 }
-const ProjectContent = ({ project }: ProjectType| any) => {
+const ProjectContent = ({ project }: ProjectType | any) => {
   return (
     <div>
-      <p style={{fontWeight:'bold'}}>{project.name}</p>
+      <h2>{project.name}</h2>
       <p style={{ fontSize: "0.8rem" }}>{project.description}</p>
     </div>
   );
