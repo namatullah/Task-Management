@@ -59,7 +59,7 @@ const page = async () => {
                   >
                     <div>
                       <ProjectContent project={project} />
-                      <Status project={project} />
+                      <Status status={project.status} />
                       <Box
                         sx={{
                           display: "flex",

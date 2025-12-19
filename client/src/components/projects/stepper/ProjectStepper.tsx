@@ -15,7 +15,9 @@ import { useRouter } from "next/navigation";
 
 const ProjectStepper = ({ project }: { project: ProjectType }) => {
   const router = useRouter();
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(
+    stepperSteps.findIndex((step) => step.value === project.status)
+  );
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -40,7 +42,7 @@ const ProjectStepper = ({ project }: { project: ProjectType }) => {
       console.log(
         error.response?.data?.message
           ? error.response?.data?.message
-          : "Add member faild"
+          : "step changes faild"
       );
     }
   };
@@ -63,8 +65,8 @@ const ProjectStepper = ({ project }: { project: ProjectType }) => {
             <StepContent>
               <p style={{ fontSize: "0.69rem" }}>{step.description}</p>
               <Box>
-                <Button variant="contained" onClick={handleNext}>
-                  {index === stepperSteps.length - 1 ? "Finish" : "Continue"}
+                <Button onClick={handleNext}>
+                  {index === stepperSteps.length - 1 ? "Finish" : "Next"}
                 </Button>
                 <Button disabled={index === 0} onClick={handleBack}>
                   Back
