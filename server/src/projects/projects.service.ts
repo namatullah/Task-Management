@@ -12,6 +12,7 @@ import { User } from 'src/users/entities/user.entity';
 import { ProjectUser } from './entities/project_user.entity';
 import { CreateProjectUserDto } from './dto/project_user/create-projectUser.dto';
 import { UpdateProjectUserDto } from './dto/project_user/update-projectUser.dto';
+import { Stepper } from './entities/stepper.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -21,11 +22,18 @@ export class ProjectsService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(ProjectUser)
     private readonly projectUserRepository: Repository<ProjectUser>,
+    @InjectRepository(Stepper)
+    private readonly stepperRepository: Repository<Stepper>,
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
     const newProject = this.projectRespository.create(createProjectDto);
-    return await this.projectRespository.save(newProject);
+    const project = await this.projectRespository.save(newProject);
+    const stepperData = { step: createProjectDto.status, index: 0, project };
+    const newStepper = this.stepperRepository.create(stepperData);
+    await this.stepperRepository.save(newStepper);
+
+    return project;
   }
 
   async findAll() {

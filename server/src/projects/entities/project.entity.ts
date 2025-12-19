@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ProjectUser } from './project_user.entity';
+import { Stepper } from './stepper.entity';
 
 export enum ProjectStatus {
   PLANNED = 'planned',
@@ -43,6 +44,9 @@ export class Project {
 
   @OneToMany(() => Task, (task) => task.project)
   tasks: Task[];
+
+  @OneToMany(() => Stepper, (stepper) => stepper.project)
+  steppers: Stepper[];
 
   @CreateDateColumn()
   createdAt: Date;

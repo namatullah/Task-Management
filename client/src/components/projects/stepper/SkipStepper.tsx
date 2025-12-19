@@ -10,8 +10,58 @@ import { ProjectType } from "@/helpers/types/projects";
 import { useState } from "react";
 import { changeProjectStatus } from "@/lib/project";
 import { useRouter } from "next/navigation";
+import { StepIconProps, styled } from "@mui/material";
+import { Check } from "@mui/icons-material";
 
-const ProjectStepper = ({ project }: { project: ProjectType }) => {
+const QontoStepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
+  ({ theme }) => ({
+    color: "#7C8085FF",
+    display: "flex",
+    height: 22,
+    alignItems: "center",
+    "& .QontoStepIcon-completedIcon": {
+      color: "#784af4",
+      zIndex: 1,
+      fontSize: 16,
+      marginLeft: "5px",
+      marginRight: "6px",
+    },
+    "& .QontoStepIcon-circle": {
+      width: 8,
+      height: 8,
+      borderRadius: "50%",
+      backgroundColor: "currentColor",
+      marginLeft: "8px",
+      marginRight: "11px",
+    },
+    ...theme.applyStyles("dark", {
+      color: theme.palette.grey[700],
+    }),
+    variants: [
+      {
+        props: ({ ownerState }) => ownerState.active,
+        style: {
+          color: "#784af4",
+        },
+      },
+    ],
+  })
+);
+function QontoStepIcon(props: StepIconProps) {
+  const { active, completed, className } = props;
+
+  return (
+    <QontoStepIconRoot ownerState={{ active }} className={className}>
+      {completed ? (
+        <Check className="QontoStepIcon-completedIcon" />
+      ) : (
+        <div className="QontoStepIcon-circle" />
+      )}
+    </QontoStepIconRoot>
+  );
+}
+
+const SkipStepper = ({ project }: { project: ProjectType }) => {
   const router = useRouter();
   const [activeStep, setActiveStep] = useState(
     stepperSteps.findIndex((step) => step.value === project.status)
@@ -53,7 +103,10 @@ const ProjectStepper = ({ project }: { project: ProjectType }) => {
       <Stepper activeStep={activeStep} orientation="vertical">
         {stepperSteps.map((step, index) => (
           <Step key={step.label}>
-            <StepLabel sx={{ padding: "0 !important", margin: "0 !important" }}>
+            <StepLabel
+              sx={{ padding: "0 !important", margin: "0 !important" }}
+              StepIconComponent={QontoStepIcon}
+            >
               {step.label}
             </StepLabel>
             <StepContent>
@@ -115,4 +168,4 @@ const ProjectStepper = ({ project }: { project: ProjectType }) => {
   );
 };
 
-export default ProjectStepper;
+export default SkipStepper;

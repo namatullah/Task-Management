@@ -65,22 +65,22 @@ export const stepperSteps = [
     textColor: "#0D6EFD",
   },
   {
-    label: "On Hold",
-    value: "on_hold",
-    description: "Temporarily paused due to issues or decisions",
-    textColor: "#FFC107",
-  },
-  {
     label: "In Review",
     value: "review",
-    description: "Awaiting review and approval",
+    description: "Awaiting review and approval, and code changes if requested",
     textColor: "#6F42C1",
   },
   {
     label: "Testing / QA",
     value: "testing",
-    description: "Being tested or validated",
+    description: "Being tested and code changes, bugs solving",
     textColor: "#20C997",
+  },
+  {
+    label: "On Hold",
+    value: "on_hold",
+    description: "Temporarily paused due to issues or decisions",
+    textColor: "#FFC107",
   },
   {
     label: "Ready for release",
@@ -100,4 +100,13 @@ export const stepperSteps = [
     description: "Permanently stopped",
     textColor: "#DC3545",
   },
+];
+
+export const onHoldRoutes = ["not_started", "in_progress", "review", "testing"];
+export const cancelRoutes = [
+  "not_started",
+  "in_progress",
+  "review",
+  "testing",
+  "on_hold",
 ];
