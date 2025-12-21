@@ -174,16 +174,25 @@ const SkipStepper = ({ project }: { project: ProjectType }) => {
                 {index !== stepperSteps.length - 1 &&
                   index !== stepperSteps.length - 2 && (
                     <>
-                      <Button onClick={handleNext} size="small">
-                        Next
-                      </Button>
+                      {index !== 5 && (
+                        <Button
+                          onClick={handleNext}
+                          size="small"
+                          variant="contained"
+                          sx={{ mr: 1 }}
+                        >
+                          Next
+                        </Button>
+                      )}
 
                       <Button
                         disabled={index === 0}
                         onClick={handleBack}
                         size="small"
+                        variant="contained"
+                        sx={{ mr: 1 }}
                       >
-                        Back
+                        {index === 5 ? "active again" : "back"}
                       </Button>
                     </>
                   )}
@@ -192,7 +201,8 @@ const SkipStepper = ({ project }: { project: ProjectType }) => {
                   <Button
                     onClick={handleOnHold}
                     size="small"
-                    sx={{ color: "#FFC107" }}
+                    sx={{ color: "#FFC107", mr: 1 }}
+                    variant="outlined"
                   >
                     On Hold
                   </Button>
@@ -201,7 +211,8 @@ const SkipStepper = ({ project }: { project: ProjectType }) => {
                   <Button
                     onClick={handleCancel}
                     size="small"
-                    sx={{ color: "#DC3545" }}
+                    sx={{ color: "#DC3545", mr: 1 }}
+                    variant="outlined"
                   >
                     Cancel
                   </Button>
