@@ -21,9 +21,6 @@ import { ProjectType } from "@/helpers/types/projects";
 import EditAction from "@/components/projects/childs/EditAction";
 import DeleteAction from "@/components/projects/childs/DeleteAction";
 import ProjectStepper from "@/components/projects/stepper/ProjectStepper";
-import SkipStepper from "@/components/projects/stepper/SkipStepper";
-import HorizontalLinearStepper from "@/components/projects/stepper/HorizontalLinearStepper";
-import HorizontalNonLinearStepper from "@/components/projects/stepper/HorizontalLinearStepper";
 
 const page = async () => {
   var apiError = "";
@@ -52,7 +49,7 @@ const page = async () => {
               {projects.map((project: ProjectType | any) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
                   <TableCell sx={{ verticalAlign: "top" }}>
-                    <SkipStepper project={project} />
+                    <ProjectStepper id={project.id} />
                   </TableCell>
                   <TableCell
                     width="30%"
