@@ -22,6 +22,8 @@ import EditAction from "@/components/projects/childs/EditAction";
 import DeleteAction from "@/components/projects/childs/DeleteAction";
 import ProjectStepper from "@/components/projects/stepper/ProjectStepper";
 import SkipStepper from "@/components/projects/stepper/SkipStepper";
+import HorizontalLinearStepper from "@/components/projects/stepper/HorizontalLinearStepper";
+import HorizontalNonLinearStepper from "@/components/projects/stepper/HorizontalLinearStepper";
 
 const page = async () => {
   var apiError = "";
@@ -53,7 +55,7 @@ const page = async () => {
                     <SkipStepper project={project} />
                   </TableCell>
                   <TableCell
-                    width="60%"
+                    width="30%"
                     sx={{
                       verticalAlign: "top",
                     }}

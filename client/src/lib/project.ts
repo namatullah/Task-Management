@@ -11,7 +11,10 @@ export const listProject = async () => {
 export const getProject = async (id: number): Promise<any> => {
   return await api.get(`/projects/${id}`);
 };
-export const changeProjectStatus = async (id: number|any, status: string | any) => {
+export const changeProjectStatus = async (
+  id: number | any,
+  status: string | any
+) => {
   return await api.patch(`/projects/${id}/status`, { status });
 };
 
@@ -37,4 +40,16 @@ export const deleteMember = async (id: number) => {
 
 export const editMember = async (id: number, isAdmin: boolean) => {
   return await api.patch(`/projects/member/${id}`, { isAdmin });
+};
+
+export const fetchStepper = async (id: number | any): Promise<any> => {
+  return await api.get(`/projects/${id}/stepper`);
+};
+
+export const changeStepper = async (
+  id: number | any,
+  activeIndex: number,
+  doneIndex: number
+) => {
+  return await api.post(`/projects/${id}/stepper`, { activeIndex, doneIndex });
 };

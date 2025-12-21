@@ -12,7 +12,7 @@ import { User } from 'src/users/entities/user.entity';
 import { ProjectUser } from './entities/project_user.entity';
 import { CreateProjectUserDto } from './dto/project_user/create-projectUser.dto';
 import { UpdateProjectUserDto } from './dto/project_user/update-projectUser.dto';
-import { Stepper } from './entities/stepper.entity';
+import { Status, Stepper } from './entities/stepper.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -29,7 +29,12 @@ export class ProjectsService {
   async create(createProjectDto: CreateProjectDto) {
     const newProject = this.projectRespository.create(createProjectDto);
     const project = await this.projectRespository.save(newProject);
-    const stepperData = { step: createProjectDto.status, index: 0, project };
+    const stepperData = {
+      step: createProjectDto.status,
+      index: 0,
+      status: Status.ACTIVE,
+      project,
+    };
     const newStepper = this.stepperRepository.create(stepperData);
     await this.stepperRepository.save(newStepper);
 
@@ -141,5 +146,36 @@ export class ProjectsService {
     }
     projectUser.isAdmin = updateProjectUserDto.isAdmin;
     return await this.projectUserRepository.save(projectUser);
+  }
+
+  async fetchStepper(id: number) {
+    const project = await this.projectRespository.findOne({
+      where: { id: id },
+      relations: {
+        steppers: true,
+      },
+    });
+    if (!project) throw new NotFoundException('Project not found');
+    return project.steppers;
+  }
+
+  async changeStepper(id: number, activeIndex: number, doneIndex: number) {
+    const lastStepper = await this.stepperRepository.findOne({
+      where: { projectId: id, index: doneIndex },
+    });
+    if (!lastStepper) {
+      throw new NotFoundException('Previous stepper not found');
+    } else {
+      lastStepper.status = Status.DONE;
+      await this.stepperRepository.save(lastStepper);
+    }
+    const newStepper = this.stepperRepository.create({
+      status:
+        activeIndex === 7 || activeIndex === 8 ? Status.DONE : Status.ACTIVE,
+      index: activeIndex,
+      project: { id: id },
+    });
+
+    return await this.stepperRepository.save(newStepper);
   }
 }

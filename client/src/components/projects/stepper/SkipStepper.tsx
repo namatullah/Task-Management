@@ -7,8 +7,8 @@ import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
 import { cancelRoutes, onHoldRoutes, stepperSteps } from "@/helpers/helper";
 import { ProjectType } from "@/helpers/types/projects";
-import { useState } from "react";
-import { changeProjectStatus } from "@/lib/project";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { changeStepper, fetchStepper } from "@/lib/project";
 import { useRouter } from "next/navigation";
 import { StepIconProps, styled } from "@mui/material";
 import { Check } from "@mui/icons-material";
@@ -63,32 +63,63 @@ function QontoStepIcon(props: StepIconProps) {
 
 const SkipStepper = ({ project }: { project: ProjectType }) => {
   const router = useRouter();
-  const [activeStep, setActiveStep] = useState(
-    stepperSteps.findIndex((step) => step.value === project.status)
-  );
+  const [done, setDone] = useState<any>([]);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const getStepperData = async () => {
+    try {
+      const response = (await fetchStepper(project.id)).data;
+      const doneStep = response.filter((s: any) => s.status === "done")
+        .map((s: any) => s.index);
+      setDone(doneStep);
+      const acitveData = response.find((s: any) => s.status === "active");
+      if (acitveData) {
+        setActiveStep(acitveData.index);
+      } else {
+        const last =  response.findLast((s:any)=>s.index);
+        setActiveStep(last?.index)
+      }
+    } catch (error: any) {
+      console.log(
+        error.response?.data?.message
+          ? error.response?.data?.message
+          : "Failed to fetch"
+      );
+    }
+  };
+  useLayoutEffect(() => {
+    getStepperData();
+  }, [activeStep]);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    handleSubmit(activeStep + 1);
+    setDone((prv: any) => [...prv, activeStep]);
+    if (activeStep === 4) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 2);
+      handleSubmit(activeStep + 2, activeStep);
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      handleSubmit(activeStep + 1, activeStep);
+    }
   };
-
   const handleOnHold = () => {
+    setDone((prv: any) => [...prv, activeStep]);
     setActiveStep(5);
-    handleSubmit(5);
+    handleSubmit(5, activeStep);
   };
   const handleCancel = () => {
+    setDone((prv: any) => [...prv, activeStep]);
     setActiveStep(8);
-    handleSubmit(8);
+    handleSubmit(8, activeStep);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    handleSubmit(activeStep - 1);
+    // handleSubmit(activeStep - 1);
   };
 
-  const handleSubmit = async (step: number) => {
+  const handleSubmit = async (activeIndex: number, doneIndex: number) => {
     try {
-      await changeProjectStatus(project.id, stepperSteps[step].value);
+      await changeStepper(project.id, activeIndex, doneIndex);
       router.push("/projects");
     } catch (error: any) {
       console.log(
@@ -98,11 +129,12 @@ const SkipStepper = ({ project }: { project: ProjectType }) => {
       );
     }
   };
+
   return (
     <Box sx={{ maxWidth: 400 }}>
       <Stepper activeStep={activeStep} orientation="vertical">
         {stepperSteps.map((step, index) => (
-          <Step key={step.label}>
+          <Step key={step.label} completed={done.includes(index)}>
             <StepLabel
               sx={{ padding: "0 !important", margin: "0 !important" }}
               StepIconComponent={QontoStepIcon}

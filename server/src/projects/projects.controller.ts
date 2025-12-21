@@ -73,4 +73,21 @@ export class ProjectsController {
   ) {
     return this.projectsService.updateMember(+id, updateProjectUserDto);
   }
+
+  @Get(':id/stepper')
+  fetchStepper(@Param('id') id: string) {
+    return this.projectsService.fetchStepper(+id);
+  }
+
+  @Post(':id/stepper')
+  changeStepper(
+    @Param('id') id: number | string,
+    @Body() data: { activeIndex: number; doneIndex: number },
+  ) {
+    return this.projectsService.changeStepper(
+      +id,
+      data.activeIndex,
+      data.doneIndex,
+    );
+  }
 }
