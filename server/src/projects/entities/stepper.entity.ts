@@ -38,10 +38,4 @@ export class Stepper {
   project: Project;
   @Column({ type: 'int', nullable: true })
   projectId: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

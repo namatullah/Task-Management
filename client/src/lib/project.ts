@@ -53,3 +53,10 @@ export const changeStepper = async (
 ) => {
   return await api.post(`/projects/${id}/stepper`, { activeIndex, doneIndex });
 };
+
+export const changeStepperBack = async (
+  id: number | any,
+  activeIndex: number
+) => {
+  return await api.post(`/projects/${id}/stepper/back`, { activeIndex });
+};

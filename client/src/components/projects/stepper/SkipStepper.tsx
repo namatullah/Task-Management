@@ -5,10 +5,15 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import Button from "@mui/material/Button";
-import { cancelRoutes, onHoldRoutes, stepperSteps } from "@/helpers/helper";
+import {
+  cancelRoutes,
+  onHoldRoutes,
+  Status,
+  stepperSteps,
+} from "@/helpers/helper";
 import { ProjectType } from "@/helpers/types/projects";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { changeStepper, fetchStepper } from "@/lib/project";
+import { useLayoutEffect, useState } from "react";
+import { changeStepper, changeStepperBack, fetchStepper } from "@/lib/project";
 import { useRouter } from "next/navigation";
 import { StepIconProps, styled } from "@mui/material";
 import { Check } from "@mui/icons-material";
@@ -68,16 +73,19 @@ const SkipStepper = ({ project }: { project: ProjectType }) => {
 
   const getStepperData = async () => {
     try {
-      const response = (await fetchStepper(project.id)).data;
-      const doneStep = response.filter((s: any) => s.status === "done")
+      const { data } = await fetchStepper(project.id);
+      const doneStep = data
+        .filter((s: any) => s.status === Status.DONE)
         .map((s: any) => s.index);
       setDone(doneStep);
-      const acitveData = response.find((s: any) => s.status === "active");
+      const acitveData = data.find((s: any) => s.status === Status.ACTIVE);
       if (acitveData) {
         setActiveStep(acitveData.index);
       } else {
-        const last =  response.findLast((s:any)=>s.index);
-        setActiveStep(last?.index)
+        const last = data.reduce((max: any, curr: any) =>
+          curr.index > max.index ? curr : max
+        );
+        setActiveStep(last?.index);
       }
     } catch (error: any) {
       console.log(
@@ -94,32 +102,39 @@ const SkipStepper = ({ project }: { project: ProjectType }) => {
   const handleNext = () => {
     setDone((prv: any) => [...prv, activeStep]);
     if (activeStep === 4) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 2);
       handleSubmit(activeStep + 2, activeStep);
     } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
       handleSubmit(activeStep + 1, activeStep);
     }
   };
   const handleOnHold = () => {
     setDone((prv: any) => [...prv, activeStep]);
-    setActiveStep(5);
     handleSubmit(5, activeStep);
   };
   const handleCancel = () => {
     setDone((prv: any) => [...prv, activeStep]);
-    setActiveStep(8);
     handleSubmit(8, activeStep);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    // handleSubmit(activeStep - 1);
+  const handleBack = async () => {
+    console.log(activeStep);
+    try {
+      const { data } = await changeStepperBack(project.id, activeStep);
+      setActiveStep(data.index);
+      router.push("/projects");
+    } catch (error: any) {
+      console.log(
+        error.response?.data?.message
+          ? error.response?.data?.message
+          : "step changes faild"
+      );
+    }
   };
 
   const handleSubmit = async (activeIndex: number, doneIndex: number) => {
     try {
-      await changeStepper(project.id, activeIndex, doneIndex);
+      const { data } = await changeStepper(project.id, activeIndex, doneIndex);
+      setActiveStep(data.index);
       router.push("/projects");
     } catch (error: any) {
       console.log(

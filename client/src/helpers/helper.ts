@@ -110,3 +110,8 @@ export const cancelRoutes = [
   "testing",
   "on_hold",
 ];
+
+export enum Status {
+  ACTIVE = "active",
+  DONE = "done",
+}

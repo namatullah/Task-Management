@@ -160,14 +160,14 @@ export class ProjectsService {
   }
 
   async changeStepper(id: number, activeIndex: number, doneIndex: number) {
-    const lastStepper = await this.stepperRepository.findOne({
+    const activeStep = await this.stepperRepository.findOne({
       where: { projectId: id, index: doneIndex },
     });
-    if (!lastStepper) {
+    if (!activeStep) {
       throw new NotFoundException('Previous stepper not found');
     } else {
-      lastStepper.status = Status.DONE;
-      await this.stepperRepository.save(lastStepper);
+      activeStep.status = Status.DONE;
+      await this.stepperRepository.save(activeStep);
     }
     const newStepper = this.stepperRepository.create({
       status:
@@ -177,5 +177,28 @@ export class ProjectsService {
     });
 
     return await this.stepperRepository.save(newStepper);
+  }
+
+  async changeStepperBack(id: number, activeIndex: number) {
+    console.log(id,activeIndex)
+    const activeStep = await this.stepperRepository.findOne({
+      where: { projectId: id, index: activeIndex },
+    });
+    console.log(activeStep)
+    if (!activeStep) {
+      throw new NotFoundException('this stepper not found');
+    } else {
+      activeStep.status = Status.DONE;
+      await this.stepperRepository.remove(activeStep);
+    }
+
+    const lastStep = await this.stepperRepository.findOne({
+      where: { projectId: id },
+      order: { index: 'DESC' },
+    });
+    if (!lastStep) throw new NotFoundException('Previous stepper not found');
+    lastStep.status = Status.ACTIVE;
+
+    return await this.stepperRepository.save(lastStep);
   }
 }

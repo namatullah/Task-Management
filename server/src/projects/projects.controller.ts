@@ -90,4 +90,12 @@ export class ProjectsController {
       data.doneIndex,
     );
   }
+
+  @Post(':id/stepper/back')
+  changeStepperBack(
+    @Param('id') id: number | string,
+    @Body('activeIndex') activeIndex: number,
+  ) {
+    return this.projectsService.changeStepperBack(+id, activeIndex);
+  }
 }
