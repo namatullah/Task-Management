@@ -44,13 +44,18 @@ export class ProjectsService {
   async findAll() {
     const res = await this.projectRespository.find({
       order: { createdAt: 'DESC' },
-      relations: { projectUsers: true },
+      relations: { projectUsers: true ,steppers:true},
     });
     return res;
   }
 
   async findOne(id: number) {
-    return await this.projectRespository.findOne({ where: { id } });
+    return await this.projectRespository.findOne({
+      where: { id },
+      relations: {
+        steppers: true,
+      },
+    });
   }
   async update(id: number, updateProjectDto: UpdateProjectDto) {
     const project = await this.projectRespository.findOne({ where: { id } });
@@ -170,8 +175,7 @@ export class ProjectsService {
       await this.stepperRepository.save(activeStep);
     }
     const newStepper = this.stepperRepository.create({
-      status:
-        activeIndex === 7 || activeIndex === 8 ? Status.DONE : Status.ACTIVE,
+      status: Status.ACTIVE,
       index: activeIndex,
       project: { id: id },
     });
@@ -180,11 +184,9 @@ export class ProjectsService {
   }
 
   async changeStepperBack(id: number, activeIndex: number) {
-    console.log(id,activeIndex)
     const activeStep = await this.stepperRepository.findOne({
       where: { projectId: id, index: activeIndex },
     });
-    console.log(activeStep)
     if (!activeStep) {
       throw new NotFoundException('this stepper not found');
     } else {
@@ -200,5 +202,19 @@ export class ProjectsService {
     lastStep.status = Status.ACTIVE;
 
     return await this.stepperRepository.save(lastStep);
+  }
+
+  async finishStepper(id: number, activeIndex: number) {
+    const activeStep = await this.stepperRepository.findOne({
+      where: { projectId: id, index: activeIndex },
+    });
+    if (!activeStep) {
+      throw new NotFoundException('Step is not found');
+    } else {
+      activeStep.status = Status.DONE;
+      await this.stepperRepository.save(activeStep);
+    }
+
+    return activeStep;
   }
 }

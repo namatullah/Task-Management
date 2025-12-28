@@ -56,7 +56,7 @@ const Add = ({
       };
       try {
         await addMember(projectId, data);
-        router.push("/projects");
+        router.push("/projects/" + projectId);
         close();
       } catch (error: any) {
         setSubmitError(

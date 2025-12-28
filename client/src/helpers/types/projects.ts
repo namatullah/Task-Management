@@ -5,7 +5,8 @@ export interface ProjectType {
   name: string;
   description: string;
   status?: string;
-  projectUsers?:ProjectMemberType | any
+  projectUsers?: ProjectMemberType | any;
+  steppers?: any;
 }
 
 export interface ProjectMemberType {

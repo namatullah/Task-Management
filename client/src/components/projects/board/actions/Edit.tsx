@@ -31,7 +31,7 @@ const Edit = ({
     e.preventDefault();
     try {
       await editMember(member.id, isAdmin);
-      router.push("/projects");
+      router.push("/projects/" + member.project.id);
       close();
     } catch (error: any) {
       setSubmitError(
@@ -41,6 +41,7 @@ const Edit = ({
       );
     }
   };
+  console.log(member);
   const handleCancel = () => {
     close();
   };

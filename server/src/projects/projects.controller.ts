@@ -91,6 +91,14 @@ export class ProjectsController {
     );
   }
 
+  @Post(':id/stepper/finish')
+  finishStepper(
+    @Param('id') id: number | string,
+    @Body('activeIndex') activeIndex: number,
+  ) {
+    return this.projectsService.finishStepper(+id, activeIndex);
+  }
+
   @Post(':id/stepper/back')
   changeStepperBack(
     @Param('id') id: number | string,

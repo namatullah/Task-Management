@@ -1,4 +1,5 @@
-import { cancelRoutes, onHoldRoutes, stepperSteps } from "@/helpers/helper";
+"use client";
+import { cancelRoutes, ConfirmStatus, onHoldRoutes } from "@/helpers/helper";
 import { changeStepper, changeStepperBack } from "@/lib/project";
 import { Box, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,7 @@ interface StepperType {
   activeStep: number;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   setDone: React.Dispatch<React.SetStateAction<number[]>>;
+  done: number[];
 }
 
 const StepperAction = ({
@@ -20,38 +22,37 @@ const StepperAction = ({
   activeStep,
   setActiveStep,
   setDone,
+  done,
 }: StepperType) => {
   const router = useRouter();
   const [openConfirm, setOpenConfirm] = useState(false);
-  const [confirm, setConfirm] = useState(false);
+  const [confirmType, setConfirmType] = useState("");
   const closeConfirm = () => {
     setOpenConfirm(false);
   };
-  const handleNext = () => {
-    setDone((prv: any) => [...prv, activeStep]);
-    if (activeStep === 4) {
-      handleSubmit(activeStep + 2, activeStep);
-    } else {
-      handleSubmit(activeStep + 1, activeStep);
-    }
-  };
+
   const handleOnHold = () => {
     setOpenConfirm(true);
-    if (confirm) {
-      setDone((prv: any) => [...prv, activeStep]);
-      handleSubmit(5, activeStep);
-    }
+    setConfirmType(ConfirmStatus.ONHOLD);
   };
   const handleCancel = () => {
-    setDone((prv: any) => [...prv, activeStep]);
-    handleSubmit(8, activeStep);
+    setOpenConfirm(true);
+    setConfirmType(ConfirmStatus.CANCEL);
+  };
+  const handleFinish = async () => {
+    setOpenConfirm(true);
+    setConfirmType(ConfirmStatus.FINISH);
   };
 
-  const handleBack = async () => {
+  const handleNext = async () => {
+    setDone((prv: any) => [...prv, activeStep]);
     try {
-      const { data } = await changeStepperBack(projectId, activeStep);
+      const { data } = await changeStepper(
+        projectId,
+        activeStep === 4 ? activeStep + 2 : activeStep + 1,
+        activeStep
+      );
       setActiveStep(data.index);
-      router.push("/projects");
     } catch (error: any) {
       console.log(
         error.response?.data?.message
@@ -61,11 +62,10 @@ const StepperAction = ({
     }
   };
 
-  const handleSubmit = async (activeIndex: number, doneIndex: number) => {
+  const handleBack = async () => {
     try {
-      const { data } = await changeStepper(projectId, activeIndex, doneIndex);
+      const { data } = await changeStepperBack(projectId, activeStep);
       setActiveStep(data.index);
-      router.push("/projects");
     } catch (error: any) {
       console.log(
         error.response?.data?.message
@@ -76,7 +76,17 @@ const StepperAction = ({
   };
   return (
     <>
-      {openConfirm && <Confirm open={openConfirm} close={closeConfirm} />}
+      {openConfirm && (
+        <Confirm
+          open={openConfirm}
+          close={closeConfirm}
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          setDone={setDone}
+          projectId={projectId}
+          confirmType={confirmType}
+        />
+      )}
       <p
         style={{
           fontSize: "0.69rem",
@@ -91,31 +101,39 @@ const StepperAction = ({
         {step.description}
       </p>
       <Box>
-        {index !== stepperSteps.length - 1 &&
-          index !== stepperSteps.length - 2 && (
-            <>
-              {index !== 5 && (
-                <Button
-                  onClick={handleNext}
-                  size="small"
-                  variant="contained"
-                  sx={{ mr: 1 }}
-                >
-                  Next
-                </Button>
-              )}
-
-              <Button
-                disabled={index === 0}
-                onClick={handleBack}
-                size="small"
-                variant="contained"
-                sx={{ mr: 1 }}
-              >
-                {index === 5 ? "active again" : "back"}
-              </Button>
-            </>
-          )}
+        {index !== 5 &&
+          !done.includes(index) &&
+          ([7, 8].includes(index) ? (
+            <Button
+              onClick={handleFinish}
+              size="small"
+              variant="contained"
+              color="secondary"
+              sx={{ mr: 1 }}
+            >
+              Finish
+            </Button>
+          ) : (
+            <Button
+              onClick={handleNext}
+              size="small"
+              variant="contained"
+              sx={{ mr: 1 }}
+            >
+              Next
+            </Button>
+          ))}
+        {!done.includes(index) && (
+          <Button
+            disabled={index === 0}
+            onClick={handleBack}
+            size="small"
+            variant="contained"
+            sx={{ mr: 1 }}
+          >
+            {index === 5 ? "active again" : "back"}
+          </Button>
+        )}
 
         {onHoldRoutes.includes(step.value) && (
           <Button

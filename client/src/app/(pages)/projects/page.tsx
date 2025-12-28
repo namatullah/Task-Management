@@ -11,6 +11,7 @@ import ProjectContent from "@/components/projects/childs/ProjectContent";
 import ApiError from "@/components/commons/ApiError";
 import EditAction from "@/components/projects/childs/EditAction";
 import DeleteAction from "@/components/projects/childs/DeleteAction";
+import Status from "@/components/projects/childs/Status";
 
 const page = async () => {
   var apiError = "";
@@ -59,6 +60,7 @@ const page = async () => {
                   </Link>
                 </Box>
                 <ProjectContent project={project} />
+                <Status steppers={project.steppers} />
               </div>
             </Grid>
           ))}

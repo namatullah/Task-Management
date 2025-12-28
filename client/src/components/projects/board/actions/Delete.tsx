@@ -28,7 +28,7 @@ const Delete = ({
   const handleDelete = async () => {
     try {
       await deleteMember(member.id);
-      router.push("/projects");
+      router.push("/projects/" + member.project.id);
       close();
     } catch (error: any) {
       setSubmitError(

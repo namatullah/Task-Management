@@ -16,6 +16,7 @@ const ProjectStepper = ({ id }: number | any) => {
 
   const getStepperData = async () => {
     try {
+      // fetchs the steps data
       const { data } = await fetchStepper(id);
       const doneStep = data
         .filter((s: any) => s.status === Status.DONE)
@@ -42,7 +43,6 @@ const ProjectStepper = ({ id }: number | any) => {
   useLayoutEffect(() => {
     getStepperData();
   }, [activeStep]);
-
   return (
     <Box sx={{ maxWidth: 400 }}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -62,6 +62,7 @@ const ProjectStepper = ({ id }: number | any) => {
                 activeStep={activeStep}
                 setActiveStep={setActiveStep}
                 setDone={setDone}
+                done={done}
               />
             </StepContent>
           </Step>
