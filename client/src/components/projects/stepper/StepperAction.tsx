@@ -2,6 +2,8 @@ import { cancelRoutes, onHoldRoutes, stepperSteps } from "@/helpers/helper";
 import { changeStepper, changeStepperBack } from "@/lib/project";
 import { Box, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
+import Confirm from "./ConfirmStep";
+import { useState } from "react";
 interface StepperType {
   step: any;
   index: number;
@@ -20,6 +22,11 @@ const StepperAction = ({
   setDone,
 }: StepperType) => {
   const router = useRouter();
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const closeConfirm = () => {
+    setOpenConfirm(false);
+  };
   const handleNext = () => {
     setDone((prv: any) => [...prv, activeStep]);
     if (activeStep === 4) {
@@ -29,8 +36,11 @@ const StepperAction = ({
     }
   };
   const handleOnHold = () => {
-    setDone((prv: any) => [...prv, activeStep]);
-    handleSubmit(5, activeStep);
+    setOpenConfirm(true);
+    if (confirm) {
+      setDone((prv: any) => [...prv, activeStep]);
+      handleSubmit(5, activeStep);
+    }
   };
   const handleCancel = () => {
     setDone((prv: any) => [...prv, activeStep]);
@@ -38,7 +48,6 @@ const StepperAction = ({
   };
 
   const handleBack = async () => {
-    console.log(activeStep);
     try {
       const { data } = await changeStepperBack(projectId, activeStep);
       setActiveStep(data.index);
@@ -67,6 +76,7 @@ const StepperAction = ({
   };
   return (
     <>
+      {openConfirm && <Confirm open={openConfirm} close={closeConfirm} />}
       <p
         style={{
           fontSize: "0.69rem",

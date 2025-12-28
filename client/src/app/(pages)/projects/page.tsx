@@ -4,23 +4,13 @@ import {
   Box,
   Card,
   CardContent,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Grid,
 } from "@mui/material";
-import Board from "@/components/projects/board/Board";
 import Link from "next/link";
 import ProjectContent from "@/components/projects/childs/ProjectContent";
-import Status from "@/components/projects/childs/Status";
 import ApiError from "@/components/commons/ApiError";
-import { ProjectType } from "@/helpers/types/projects";
 import EditAction from "@/components/projects/childs/EditAction";
 import DeleteAction from "@/components/projects/childs/DeleteAction";
-import ProjectStepper from "@/components/projects/stepper/ProjectStepper";
 
 const page = async () => {
   var apiError = "";
@@ -35,59 +25,44 @@ const page = async () => {
   return (
     <Card elevation={0}>
       <CardContent>
-        <ApiError message={apiError} />
-        <TableContainer component={Paper} elevation={6}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left" colSpan={2}>
-                  <ProjectTitle />
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {projects.map((project: ProjectType | any) => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
-                  <TableCell sx={{ verticalAlign: "top" }}>
-                    <ProjectStepper id={project.id} />
-                  </TableCell>
-                  <TableCell
-                    width="30%"
-                    sx={{
-                      verticalAlign: "top",
-                    }}
+        <Grid container spacing={2}>
+          <Grid size={12}>
+            <ProjectTitle />
+            <ApiError message={apiError} />
+          </Grid>
+          {projects.map((project: any) => (
+            <Grid
+              size={{ xs: 12, md: 6, lg: 4, xl: 3 }}
+              sx={{
+                backgroundColor: "#f0f0f2",
+                padding: 1,
+                borderRadius: 1,
+              }}
+              key={project.id}
+            >
+              <div style={{ margin: 4 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box>
+                    <EditAction project={project} />
+                    <DeleteAction project={project} />
+                  </Box>
+                  <Link
+                    href={`/projects/${project.id}`}
+                    style={{ textDecoration: "none" }}
                   >
-                    <div>
-                      <ProjectContent project={project} />
-                      <Status status={project.status} />
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Box>
-                          <EditAction project={project} />
-                          <DeleteAction project={project} />
-                        </Box>
-                        {project.projectUsers.length > 0 && (
-                          <Link
-                            href={`/projects/${project.id}`}
-                            style={{ textDecoration: "none" }}
-                          >
-                            Tasks details...
-                          </Link>
-                        )}
-                      </Box>
-                    </div>
-                    <br />
-                    <Board projectId={project.id} status={project.status} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                    Tasks details...
+                  </Link>
+                </Box>
+                <ProjectContent project={project} />
+              </div>
+            </Grid>
+          ))}
+        </Grid>
       </CardContent>
     </Card>
   );

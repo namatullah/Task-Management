@@ -1,10 +1,24 @@
 import Board from "@/components/projects/board/Board";
 import Status from "@/components/projects/childs/Status";
 import { getProject } from "@/lib/project";
-import { Card, CardContent, Grid } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+} from "@mui/material";
 import ProjectContent from "@/components/projects/childs/ProjectContent";
 import Tasks from "@/components/tasks/Tasks";
 import ApiError from "@/components/commons/ApiError";
+import ProjectStepper from "@/components/projects/stepper/ProjectStepper";
+import EditAction from "@/components/projects/childs/EditAction";
+import DeleteAction from "@/components/projects/childs/DeleteAction";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -20,30 +34,42 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <Card elevation={0}>
       <CardContent>
-        <Card elevation={6}>
-          <CardContent>
-            <ApiError message={apiError} />
-            <Grid container spacing={2}>
-              <Grid
-                size={12}
-                sx={{
-                  backgroundColor: "#f0f0f2",
-                  padding: 1,
-                  borderRadius: 1,
-                }}
-                key={project.id}
-              >
-                <div style={{ display: "flex" }}>
-                  <div style={{ display: "column", width: "80%", margin: 4 }}>
+        <ApiError message={apiError} />
+        <TableContainer component={Paper} elevation={6}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableBody>
+              <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
+                <TableCell sx={{ verticalAlign: "top" }}>
+                  <ProjectStepper id={project.id} />
+                </TableCell>
+                <TableCell
+                  width="30%"
+                  sx={{
+                    verticalAlign: "top",
+                  }}
+                >
+                  <div>
                     <ProjectContent project={project} />
-                    <Status project={project} />
+                    <Status status={project.status} />
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      {/* <Box>
+                        <EditAction project={project} />
+                        <DeleteAction project={project} />
+                      </Box> */}
+                    </Box>
                   </div>
+                  <br />
                   <Board projectId={project.id} status={project.status} />
-                </div>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
         <br />
         <Tasks isArchived={false} projectId={project.id} />
       </CardContent>
