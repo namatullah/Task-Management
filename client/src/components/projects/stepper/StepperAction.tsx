@@ -3,8 +3,8 @@ import { cancelRoutes, ConfirmStatus, onHoldRoutes } from "@/helpers/helper";
 import { changeStepper, changeStepperBack } from "@/lib/project";
 import { Box, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
-import Confirm from "./ConfirmStep";
 import { useState } from "react";
+import ConfirmStep from "./ConfirmStep";
 interface StepperType {
   step: any;
   index: number;
@@ -77,7 +77,7 @@ const StepperAction = ({
   return (
     <>
       {openConfirm && (
-        <Confirm
+        <ConfirmStep
           open={openConfirm}
           close={closeConfirm}
           activeStep={activeStep}

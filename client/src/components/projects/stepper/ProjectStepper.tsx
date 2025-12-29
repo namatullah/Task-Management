@@ -9,20 +9,24 @@ import { useLayoutEffect, useState } from "react";
 import { fetchStepper } from "@/lib/project";
 import StepperAction from "./StepperAction";
 import QontoStepIconHelper from "./QontoStepIconHelper";
+import { useProjectContext } from "@/hooks/ProjectContext";
 
 const ProjectStepper = ({ id }: number | any) => {
   const [done, setDone] = useState<any>([]);
   const [activeStep, setActiveStep] = useState(0);
+  const { setSteppers, setStatus } = useProjectContext();
 
   const getStepperData = async () => {
     try {
       // fetchs the steps data
       const { data } = await fetchStepper(id);
+      setSteppers(data)
       const doneStep = data
         .filter((s: any) => s.status === Status.DONE)
         .map((s: any) => s.index);
       setDone(doneStep);
       const acitveData = data.find((s: any) => s.status === Status.ACTIVE);
+      setStatus(acitveData.index)
       if (acitveData) {
         setActiveStep(acitveData.index);
       } else {

@@ -14,6 +14,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SideBarList from "./SideBarList";
 import { useAuth } from "@/hooks/AuthContext";
 import Link from "next/link";
+import { ThemeToggle } from "../commons/ThemeToggle";
 
 const drawerWidth = 180;
 
@@ -100,7 +101,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MainDrawer() {
-  const { user, logout, loading } = useAuth();
+  const { user } = useAuth();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
@@ -136,18 +137,19 @@ export default function MainDrawer() {
               Task Management
             </Typography>
           </span>
-          {user ? (
-            <p>
-              Hello, {user?.name || user?.email}
-            </p>
-          ) : (
-            <Link
-              href="/auth"
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              Sign In
-            </Link>
-          )}
+          <span style={{ display:'flex' }}>
+            {user ? (
+              <p>Hello, {user?.name || user?.email}</p>
+            ) : (
+              <Link
+                href="/auth"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Sign In
+              </Link>
+            )}
+            <ThemeToggle />
+          </span>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

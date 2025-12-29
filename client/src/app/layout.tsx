@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/hooks/AuthContext";
+import { ThemeContextProvider } from "@/hooks/ThemeContext";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 
 export const metadata = {
@@ -15,7 +16,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          <ThemeContextProvider>
+            <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          </ThemeContextProvider>
         </AuthProvider>
       </body>
     </html>

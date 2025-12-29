@@ -15,6 +15,7 @@ import ProjectContent from "@/components/projects/childs/ProjectContent";
 import Tasks from "@/components/tasks/Tasks";
 import ApiError from "@/components/commons/ApiError";
 import ProjectStepper from "@/components/projects/stepper/ProjectStepper";
+import { ProjectProvider } from "@/hooks/ProjectContext";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -28,42 +29,43 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
       error?.response?.data.message || error.message || "failed to load task";
   }
   return (
-    <Card elevation={0}>
-      <CardContent>
-        <ApiError message={apiError} />
-        <TableContainer component={Paper} elevation={6}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableBody>
-              <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
-                <TableCell width="30%" sx={{ verticalAlign: "top" }}>
-                  <ProjectStepper id={project.id} />
-                </TableCell>
-                <TableCell
-                  width="35%"
-                  sx={{
-                    verticalAlign: "top",
-                  }}
-                >
-                  <div>
+    <ProjectProvider>
+      <Card elevation={0}>
+        <CardContent>
+          <ApiError message={apiError} />
+          <TableContainer component={Paper} elevation={6}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableBody>
+                <TableRow hover role="checkbox" tabIndex={-1} key={project.id}>
+                  <TableCell width="30%" sx={{ verticalAlign: "top" }}>
+                    <ProjectStepper id={project.id} />{" "}
+                  </TableCell>
+                  <TableCell
+                    width="35%"
+                    sx={{
+                      verticalAlign: "top",
+                    }}
+                  >
                     <ProjectContent project={project} />
-                  </div>
-                </TableCell>
-                <TableCell
-                  sx={{
-                    verticalAlign: "top",
-                    pt: 5,
-                  }}
-                >
-                  <Board projectId={project.id} status={project.status} />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <br />
-        <Tasks isArchived={false} projectId={project.id} />
-      </CardContent>
-    </Card>
+                    <Status steppers={project.steppers} />
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      verticalAlign: "top",
+                      pt: 5,
+                    }}
+                  >
+                    <Board projectId={project.id} status={project.status} />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <br />
+          <Tasks isArchived={false} projectId={project.id} />
+        </CardContent>
+      </Card>
+    </ProjectProvider>
   );
 };
 
