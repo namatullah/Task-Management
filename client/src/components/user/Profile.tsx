@@ -24,14 +24,7 @@ const Profile = () => {
               <UsersList
                 user={user}
                 users={users}
-                active={true}
                 title="Users list"
-              />
-              <UsersList
-                user={user}
-                users={users}
-                active={false}
-                title="Deactive users list"
               />
             </>
           )}

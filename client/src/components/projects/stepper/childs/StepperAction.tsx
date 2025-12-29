@@ -94,7 +94,7 @@ const StepperAction = ({
             step.value !== "cancelled"
               ? step.value === "completed"
                 ? "green"
-                : "#3c3939"
+                : ""
               : "red",
         }}
       >

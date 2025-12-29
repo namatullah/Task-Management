@@ -6,15 +6,15 @@ import { changesUserStatus } from "@/lib/user";
 import { useRouter } from "next/navigation";
 
 const ChangeStatus = ({ user }: User | any) => {
-  const router = useRouter()
+  const router = useRouter();
   const [active, setActive] = useState(user.isActive);
   const handleChange = async () => {
     try {
       const res = await changesUserStatus(user.id);
       if (res.status === 200) {
         setActive(res.data.isActive);
-
       }
+      router.push('/profile')
     } catch (error: any) {
       const errorMessage = error?.response?.data?.message || "Login failed";
       console.log(errorMessage);

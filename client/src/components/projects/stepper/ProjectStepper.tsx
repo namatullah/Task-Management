@@ -7,9 +7,9 @@ import StepContent from "@mui/material/StepContent";
 import { Status, stepperSteps } from "@/helpers/helper";
 import { useLayoutEffect, useState } from "react";
 import { fetchStepper } from "@/lib/project";
-import StepperAction from "./StepperAction";
-import QontoStepIconHelper from "./QontoStepIconHelper";
 import { useProjectContext } from "@/hooks/ProjectContext";
+import QontoStepIconHelper from "./childs/QontoStepIconHelper";
+import StepperAction from "./childs/StepperAction";
 
 const ProjectStepper = ({ id }: number | any) => {
   const [done, setDone] = useState<any>([]);

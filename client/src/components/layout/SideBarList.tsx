@@ -10,7 +10,6 @@ import {
   AccountCircleOutlined,
   HomeOutlined,
   LogoutOutlined,
-  SettingsOutlined,
   TaskAltOutlined,
   WorkspacesOutlined,
 } from "@mui/icons-material";
@@ -45,13 +44,6 @@ const NavigationLinks = [
     icon: <AccountCircleOutlined />,
     link: "/profile",
     scope: "profile",
-  },
-  {
-    type: 2,
-    title: "Settings",
-    icon: <SettingsOutlined />,
-    link: "/project",
-    scope: "settings",
   },
   {
     type: 2,

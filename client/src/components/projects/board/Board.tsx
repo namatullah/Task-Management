@@ -79,10 +79,7 @@ const Board = ({
                   <TableCell>
                     <Tooltip title={<UserTooltip user={member.user} />}>
                       <span>
-                        {member.user.name}{" "}
-                        {member.isAdmin && (
-                          <span style={{ color: "blue" }}>(Admin)</span>
-                        )}
+                        {member.user.name} {member.isAdmin && "(Admin)"}
                       </span>
                     </Tooltip>
                   </TableCell>

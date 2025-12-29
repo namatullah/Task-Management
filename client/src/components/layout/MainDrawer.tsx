@@ -138,6 +138,8 @@ export default function MainDrawer() {
             </Typography>
           </span>
           <span style={{ display:'flex' }}>
+            <ThemeToggle />
+
             {user ? (
               <p>Hello, {user?.name || user?.email}</p>
             ) : (
@@ -148,7 +150,6 @@ export default function MainDrawer() {
                 Sign In
               </Link>
             )}
-            <ThemeToggle />
           </span>
         </Toolbar>
       </AppBar>

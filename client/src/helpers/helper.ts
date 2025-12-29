@@ -24,7 +24,7 @@ export const TaskTableHeader = [
 
 export const UsersTableHeader = [
   "ID",
-  "Name",
+  "Name/Full Name",
   "Email",
   "Role",
   "Created At",

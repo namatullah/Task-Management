@@ -15,12 +15,10 @@ import ChangeRole from "./ChangeRole";
 const UsersList = ({
   user,
   users,
-  active,
   title,
 }: {
   user: User | null;
   users: User[];
-  active: boolean;
   title: string;
 }) => {
   return (
@@ -28,7 +26,7 @@ const UsersList = ({
       <Table stickyHeader aria-label="sticky table">
         <TableHead>
           <TableRow>
-            <TableCell align="left" sx={{ fontWeight: "bold" }} colSpan={7}>
+            <TableCell align="left" sx={{ fontWeight: "bold" }} colSpan={6}>
               {title}
             </TableCell>
           </TableRow>
@@ -48,7 +46,7 @@ const UsersList = ({
         </TableHead>
         <TableBody>
           {users
-            .filter((u: any) => u?.id !== user?.id && u.isActive === active)
+            .filter((u: any) => u?.id !== user?.id).sort()
             .map((usr: any, index) => {
               return (
                 <TableRow hover role="checkbox" key={index} tabIndex={-1}>
@@ -56,16 +54,13 @@ const UsersList = ({
                     {usr.id}
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
-                    {usr.firstName}
-                  </TableCell>
-                  <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
-                    {usr.lastName}
+                    {usr.name}
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
                     {usr.email}
                   </TableCell>
                   <TableCell sx={{ padding: 0 }}>
-                    {active? (<ChangeRole user={usr} />) : <>{usr.role}</>}
+                    {usr.isActive? (<ChangeRole user={usr} />) : <>{usr.role}</>}
                     
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>

@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   Grid,
+  Paper,
 } from "@mui/material";
 import Link from "next/link";
 import ProjectContent from "@/components/projects/childs/ProjectContent";
@@ -32,12 +33,13 @@ const page = async () => {
             <ApiError message={apiError} />
           </Grid>
           {projects.map((project: any) => (
-            <Grid
+            <Grid 
+            component={Paper}
+            elevation={6}
               size={{ xs: 12, md: 6, lg: 4, xl: 3 }}
               sx={{
-                backgroundColor: "#f0f0f2",
                 padding: 1,
-                borderRadius: 1,
+                borderRadius: 1,border:'1'
               }}
               key={project.id}
             >
