@@ -33,7 +33,7 @@ const NavigationLinks = [
   },
   {
     type: 1,
-    title: "Project",
+    title: "Projects",
     icon: <WorkspacesOutlined />,
     link: "/projects",
     scope: "projects",
@@ -87,12 +87,6 @@ const SideBarList = ({ open }: { open: boolean }) => {
                 {
                   minHeight: 48,
                   px: 2.5,
-                  "&.Mui-selected": {
-                    backgroundColor: "#b8d3ee",
-                  },
-                  "&.Mui-selected:hover": {
-                    backgroundColor: "#b8d3ee",
-                  },
                 },
                 open
                   ? {
@@ -147,12 +141,6 @@ const SideBarList = ({ open }: { open: boolean }) => {
                 {
                   minHeight: 48,
                   px: 2.5,
-                  "&.Mui-selected": {
-                    backgroundColor: "#b8d3ee",
-                  },
-                  "&.Mui-selected:hover": {
-                    backgroundColor: "#b8d3ee",
-                  },
                 },
                 open
                   ? {

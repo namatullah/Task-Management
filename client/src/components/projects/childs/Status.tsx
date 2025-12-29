@@ -4,8 +4,7 @@ import { stepperSteps } from "@/helpers/helper";
 import { useProjectContext } from "@/hooks/ProjectContext";
 
 const Status = ({ steppers }: any) => {
-
-   try {
+  try {
     const ctx = useProjectContext();
     steppers = ctx.steppers;
   } catch {
@@ -13,8 +12,10 @@ const Status = ({ steppers }: any) => {
   }
 
   if (!steppers) return null;
-  
-  const index = steppers.find((s: any) => s.status === "active")?.index ?? 0;
+
+  const index =
+    steppers.find((s: any) => s.status === "active")?.index ??
+    Math.max(...steppers.map((s: any) => s.index));
   const currentStep = stepperSteps.find((s) => s.index === index);
 
   return (

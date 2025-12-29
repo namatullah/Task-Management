@@ -11,16 +11,18 @@ import { User } from "../../../helpers/types/users";
 import { UsersTableHeader, splitWithCommas } from "@/helpers/helper";
 import ChangeStatus from "./ChangeStatus";
 import ChangeRole from "./ChangeRole";
+import { fetchUsers } from "@/lib/user";
+import { useEffect, useState } from "react";
 
-const UsersList = ({
-  user,
-  users,
-  title,
-}: {
-  user: User | null;
-  users: User[];
-  title: string;
-}) => {
+const UsersList = ({ user, title }: { user: User | null; title: string }) => {
+  const [users, setUsers] = useState<User[]>();
+  const [reRender, setReRender] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchUsers()
+      .then((res) => setUsers(res.data))
+      .catch((error) => console.log(error));
+  }, [reRender]);
   return (
     <TableContainer component={Paper} elevation={6} sx={{ marginY: "10px" }}>
       <Table stickyHeader aria-label="sticky table">
@@ -46,7 +48,8 @@ const UsersList = ({
         </TableHead>
         <TableBody>
           {users
-            .filter((u: any) => u?.id !== user?.id).sort()
+            ?.filter((u: any) => u?.id !== user?.id)
+            .sort((a: any, b: any) => Number(b.isActive) - Number(a.isActive))
             .map((usr: any, index) => {
               return (
                 <TableRow hover role="checkbox" key={index} tabIndex={-1}>
@@ -60,8 +63,7 @@ const UsersList = ({
                     {usr.email}
                   </TableCell>
                   <TableCell sx={{ padding: 0 }}>
-                    {usr.isActive? (<ChangeRole user={usr} />) : <>{usr.role}</>}
-                    
+                    {usr.isActive ? <ChangeRole user={usr} /> : <>{usr.role}</>}
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
                     {splitWithCommas(
@@ -75,7 +77,7 @@ const UsersList = ({
                     )}
                   </TableCell>
                   <TableCell sx={{ verticalAlign: "top", fontSize: "0.76rem" }}>
-                    <ChangeStatus user={usr} />
+                    <ChangeStatus user={usr} setReRender={setReRender} />
                   </TableCell>
                 </TableRow>
               );

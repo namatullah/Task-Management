@@ -1,28 +1,34 @@
 "use client";
 import { ProjectType } from "@/helpers/types/projects";
-import { DeleteForever, EditNoteOutlined } from "@mui/icons-material";
+import { DeleteForever } from "@mui/icons-material";
 import { useState } from "react";
 import Delete from "../actions/Delete";
+import { useAuth } from "@/hooks/AuthContext";
 
 const DeleteAction = ({ project }: ProjectType | any) => {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
-    // setDeleteRender(true);
   };
   const handleClose = () => {
     setOpen(false);
-    // setDeleteRender(false);
   };
+  const deletable = project.steppers.find(
+    (s: any) => s.status === "active" && s.index === 0
+  );
+
   return (
     <>
       {open && <Delete open={open} close={handleClose} project={project} />}
-      <DeleteForever
-        sx={{ fontWeight: "300" }}
-        color="error"
-        onClick={handleOpen}
-      />
+      {user?.role === "admin" && deletable && (
+        <DeleteForever
+          sx={{ fontWeight: "300" }}
+          color="error"
+          onClick={handleOpen}
+        />
+      )}
     </>
   );
 };

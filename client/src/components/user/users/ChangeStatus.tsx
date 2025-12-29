@@ -5,8 +5,13 @@ import { User } from "@/helpers/types/users";
 import { changesUserStatus } from "@/lib/user";
 import { useRouter } from "next/navigation";
 
-const ChangeStatus = ({ user }: User | any) => {
-  const router = useRouter();
+const ChangeStatus = ({
+  user,
+  setReRender,
+}: {
+  user: User | any;
+  setReRender: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [active, setActive] = useState(user.isActive);
   const handleChange = async () => {
     try {
@@ -14,7 +19,7 @@ const ChangeStatus = ({ user }: User | any) => {
       if (res.status === 200) {
         setActive(res.data.isActive);
       }
-      router.push('/profile')
+      setReRender(prev => !prev);
     } catch (error: any) {
       const errorMessage = error?.response?.data?.message || "Login failed";
       console.log(errorMessage);

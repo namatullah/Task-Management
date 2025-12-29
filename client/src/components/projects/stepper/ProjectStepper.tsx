@@ -5,7 +5,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import { Status, stepperSteps } from "@/helpers/helper";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { fetchStepper } from "@/lib/project";
 import { useProjectContext } from "@/hooks/ProjectContext";
 import QontoStepIconHelper from "./childs/QontoStepIconHelper";
@@ -20,21 +20,16 @@ const ProjectStepper = ({ id }: number | any) => {
     try {
       // fetchs the steps data
       const { data } = await fetchStepper(id);
-      setSteppers(data)
+      setSteppers(data);
       const doneStep = data
         .filter((s: any) => s.status === Status.DONE)
         .map((s: any) => s.index);
       setDone(doneStep);
-      const acitveData = data.find((s: any) => s.status === Status.ACTIVE);
-      setStatus(acitveData.index)
-      if (acitveData) {
-        setActiveStep(acitveData.index);
-      } else {
-        const last = data.reduce((max: any, curr: any) =>
-          curr.index > max.index ? curr : max
-        );
-        setActiveStep(last?.index);
-      }
+      const index =
+        data.find((s: any) => s.status === Status.ACTIVE)?.index ??
+        Math.max(...data.map((s: any) => s.index));
+      setStatus(index);
+      setActiveStep(index);
     } catch (error: any) {
       console.log(
         error.response?.data?.message
@@ -45,6 +40,9 @@ const ProjectStepper = ({ id }: number | any) => {
   };
 
   useLayoutEffect(() => {
+    getStepperData();
+  }, []);
+  useEffect(() => {
     getStepperData();
   }, [activeStep]);
   return (
