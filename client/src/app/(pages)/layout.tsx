@@ -12,23 +12,6 @@ export default function PagesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated, loading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push("/auth");
-    }
-  }, [loading, isAuthenticated, router]);
-
-  if (loading) {
-    return null; // or a spinner
-  }
-
-  if (!isAuthenticated) {
-    return null; // prevent UI flash
-  }
-
   return (
     <Box sx={{ display: "flex" }}>
       <MainDrawer />
