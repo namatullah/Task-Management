@@ -4,6 +4,7 @@ import { DeleteForever } from "@mui/icons-material";
 import { useState } from "react";
 import Delete from "../actions/Delete";
 import { useAuth } from "@/hooks/AuthContext";
+import { IconButton } from "@mui/material";
 
 const DeleteAction = ({ project }: ProjectType | any) => {
   const { user } = useAuth();
@@ -15,20 +16,16 @@ const DeleteAction = ({ project }: ProjectType | any) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const deletable = project.steppers.find(
-    (s: any) => s.status === "active" && s.index === 0
-  );
+  const deletable =
+    project.steppers.find((s: any) => s.status === "active" && s.index === 0) &&
+    user?.role === "admin";
 
   return (
     <>
       {open && <Delete open={open} close={handleClose} project={project} />}
-      {user?.role === "admin" && deletable && (
-        <DeleteForever
-          sx={{ fontWeight: "300" }}
-          color="error"
-          onClick={handleOpen}
-        />
-      )}
+      <IconButton disabled={!deletable} onClick={handleOpen}>
+        <DeleteForever color={deletable ? "error" : "disabled"} />
+      </IconButton>
     </>
   );
 };

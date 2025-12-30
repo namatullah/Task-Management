@@ -1,12 +1,18 @@
 "use client";
 import { useAuth } from "@/hooks/AuthContext";
 import { AddTaskOutlined } from "@mui/icons-material";
-import { Button, TableCell, TableRow, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import Add from "../actions/Add";
 
 const ProjectTitle = () => {
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const openForm = () => {
     setOpen(true);
@@ -14,6 +20,7 @@ const ProjectTitle = () => {
   const closeForm = () => {
     setOpen(false);
   };
+
   return (
     <>
       {open && <Add open={open} close={closeForm} />}
@@ -22,16 +29,15 @@ const ProjectTitle = () => {
           Projects
         </Typography>
 
-        {isAuthenticated && (
-          <Button
-            sx={{ mb: 2 }}
-            onClick={openForm}
-            variant="outlined"
-            startIcon={<AddTaskOutlined />}
-          >
-            <span style={{ paddingTop: "inherit" }}>Add Project</span>
-          </Button>
-        )}
+        <Button
+          sx={{ mb: 2 }}
+          onClick={openForm}
+          variant="outlined"
+          startIcon={<AddTaskOutlined />}
+          disabled={user?.role !== "admin"}
+        >
+          <span style={{ paddingTop: "inherit" }}>Add Project</span>
+        </Button>
       </div>
     </>
   );
